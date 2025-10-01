@@ -7,3 +7,4 @@ torchvision
 matplotlib
 wordcloud
 plotly
+kaleido
