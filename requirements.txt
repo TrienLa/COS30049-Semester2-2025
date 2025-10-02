@@ -6,5 +6,5 @@ torch
 torchvision
 matplotlib
 wordcloud
-tensorflow
-pickle
+tf-nightly
+nltk
