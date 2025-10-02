@@ -18,8 +18,8 @@ def generate_model(email_df):
     vectorizer = TextVectorization(
         max_tokens=1000,
         output_mode='int',
-        output_sequence_length=100,      # Ensure all sequences have the same length
-        standardize='lower_and_strip_punctuation'   # Lowercase and split by whitespace
+        output_sequence_length=128,
+        standardize='lower_and_strip_punctuation'
     )
     vectorizer.adapt(email_df['text'])
     
@@ -30,9 +30,9 @@ def generate_model(email_df):
     # Model buidling and compiling
     lstm = Sequential([
         vectorizer,
-        Embedding(input_dim=1000,output_dim=128),
+        Embedding(input_dim=1000, output_dim=128, mask_zero=True),
         LSTM(128),
-        Dense(64, activation='relu'),
+        Dense(128, activation='relu'),
         Dense(1, activation='sigmoid')
         ])
 
@@ -58,3 +58,14 @@ if __name__ == "__main__":
 
     # Load model
     model = kmodels.load_model(sys.path[0] +'/models/lstm.keras')
+
+    # Test data
+    test_mails = [
+        'hi im a fake email and this is a scam',
+        'naturally irresistible your corporate identity  lt is really hard to recollect a company : the  market is full of suqgestions and the information isoverwhelminq ; but a good  catchy logo , stylish statlonery and outstanding website  will make the task much easier .  we do not promise that havinq ordered a iogo your  company will automaticaily become a world ieader : it isguite ciear that  without good products , effective business organization and practicable aim it  will be hotat nowadays market',
+    ]
+
+    # Model Prediction
+    predictions = model.predict(tf.constant(test_mails))
+
+    print(predictions)

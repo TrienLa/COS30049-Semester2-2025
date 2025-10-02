@@ -19,8 +19,8 @@ def generate_model(email_df):
     vectorizer = TextVectorization(
         max_tokens=10000,
         output_mode='int',
-        output_sequence_length=100,      # Ensure all sequences have the same length
-        standardize='lower_and_strip_punctuation'   # Lowercase and split by whitespace
+        output_sequence_length=100,
+        standardize='lower_and_strip_punctuation'
     )
     vectorizer.adapt(email_df['text'])
     vectorized = vectorizer(email_df['text'])
