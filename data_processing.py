@@ -22,6 +22,27 @@ def load_data(filename):
         # Handle errors.
         print(f"Error loading data: {e}")
         return None
+    
+def data_clean_up(df):
+    """
+    Args:
+        df (dataframe): Dataframe loaded from the CSV file.
+    """
+    # Check if there is duplicate entry
+    if df.duplicated().sum() > 0:
+        print("Found " + str(df.duplicated().sum()) + " duplicate entries")
+        df.drop_duplicates(inplace=True) # Remove duplicates from dataframe
+        df.reset_index(inplace=True) # Reset the index column after removing duplicates
+    print(df)
+    
+def data_preprocessing(df):
+    """
+    Args:
+        df (dataframe): Dataframe loaded from the CSV file.
+    """
+    df['text'] = df['text'].str.lower() # Lowercase all the text characters
+    df['text'] = df['text'].str.replace(r'^subject\s*','',case=False, regex=True) # Remove all the starting subject text
+
 
 def generate_feature_plot(email_df):
     """
@@ -49,6 +70,7 @@ def generate_feature_plot(email_df):
 if __name__ == "__main__":
     # Load the email data
     email_dfs = load_data(sys.path[0] + "/dataset/emails.csv")
-
+    data_clean_up(email_dfs)
+    data_preprocessing(email_dfs)
     # Generate plot
-    generate_feature_plot(email_dfs)
+    # generate_feature_plot(email_dfs)
