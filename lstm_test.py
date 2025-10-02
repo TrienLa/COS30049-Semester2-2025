@@ -3,8 +3,6 @@ import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import TextVectorization, Normalization
 from keras.layers import Embedding, LSTM, Dense
-from keras.utils import to_categorical
-from sklearn.model_selection import train_test_split
 from data_processing import load_data, data_clean_up, data_preprocessing
 import sys, os
 
@@ -20,13 +18,11 @@ def generate_model(email_df):
     vectorizer = TextVectorization(
         max_tokens=1000,
         output_mode='int',
-        output_sequence_length=20,      # Ensure all sequences have the same length
+        output_sequence_length=100,      # Ensure all sequences have the same length
         standardize='lower_and_strip_punctuation'   # Lowercase and split by whitespace
     )
     vectorizer.adapt(email_df['text'])
     
-    
-
     # Create dataset
     ds = tf.data.Dataset.from_tensor_slices((tf.constant(email_df['text']),tf.constant(email_df['spam'])))
     ds = ds.shuffle(buffer_size=8).batch(2).prefetch(tf.data.AUTOTUNE)
@@ -34,7 +30,7 @@ def generate_model(email_df):
     # Model buidling and compiling
     lstm = Sequential([
         vectorizer,
-        Embedding(input_dim=1000,output_dim=64),
+        Embedding(input_dim=1000,output_dim=128),
         LSTM(128),
         Dense(64, activation='relu'),
         Dense(1, activation='sigmoid')
@@ -61,4 +57,4 @@ if __name__ == "__main__":
     generate_model(email_dfs)
 
     # Load model
-    model = kmodels.load_model(sys.path[0] +'/models/lstm_model.keras')
+    model = kmodels.load_model(sys.path[0] +'/models/lstm.keras')

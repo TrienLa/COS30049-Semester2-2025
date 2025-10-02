@@ -58,4 +58,4 @@ if __name__ == "__main__":
     generate_model(email_dfs)
 
     # Load model
-    model = kmodels.load_model(sys.path[0] +'/models/lstm_model.keras')
+    model = kmodels.load_model(sys.path[0] +'/models/lstm.keras')
