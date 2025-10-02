@@ -43,6 +43,18 @@ def data_preprocessing(df):
     df['text'] = df['text'].str.lower() # Lowercase all the text characters
     df['text'] = df['text'].str.replace(r'^subject\s*','',case=False, regex=True) # Remove all the starting subject text
 
+    # Check if there is any null entries
+    df = df[df['text'].notnull()]
+
+    # Check if there is invalid entries
+    df = df.drop(df.query("`spam` != [0,1]").index)
+
+    # Index reset
+    df.reset_index(inplace=True) # Reset the index column after removing duplicates
+    df = df.drop('index', axis=1) # Remove the new index column
+    
+    print(df)
+
 def generate_feature_plot(email_df):
     """
     Args:
