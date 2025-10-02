@@ -6,6 +6,4 @@ torch
 torchvision
 matplotlib
 wordcloud
-plotly
-kaleido
 tensorflow

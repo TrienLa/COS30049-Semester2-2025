@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
-import plotly.express as pex
-import plotly.io
-import os, sys, re
+import seaborn as sns
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import sys
 
 def load_data(filename):
     """
@@ -50,18 +51,23 @@ def generate_feature_plot(email_df):
         email_df (pandas DataFrame): DataFrame containing information from CSV file.
     """
     # Generate plot for distribution of spam vs ham in the dataset 
-    spam_counts = email_df['spam'].value_counts()
-    spam_distribution = pex.bar(spam_counts, x=spam_counts.index, y=spam_counts.values, labels={'x': 'Spam', 'y': 'Count'}, title='Distribution of Spam vs Ham emails')
-    plotly.io.write_image(spam_distribution, sys.path[0] + "/plots/spam_distribution.png")
+    spam_distribution = sns.displot(email_df, x='spam', discrete=True, shrink=0.8).set_xlabels('Spam').set(title='Distribution of Spam vs Ham emails')
+    spam_distribution.savefig(sys.path[0] + "/plots/spam_distribution.png")
 
     # Generate plot for text length distribution of spam vs ham in the dataset 
     email_df['text length'] = email_df['text'].apply(len) # Add a new data column categorizing the length of each email
-    email_length = pex.histogram(email_df, y='text length', color='spam', nbins=35, title='Text length distribution by Spam vs Ham')
-    plotly.io.write_image(email_length, sys.path[0] + "/plots/email_length.png")
+    email_length = sns.displot(email_df, x='text length', multiple="stack", hue="spam", bins=35).set_xlabels('Text Length').set(title='Text length distribution by Spam vs Ham emails')
+    email_length.savefig(sys.path[0] + "/plots/email_length.png")
 
     # Generate a word cloud for non spam emails
+    ham_text = " ".join(email for email in email_df[email_df['spam'] == 0]['text']) # Add all the text in the dataset that isn't spam to a long string
+    ham_wordcloud = WordCloud(width=500, height=500, max_font_size=75, max_words=150, background_color="white").generate(ham_text)
+    ham_wordcloud.to_file(sys.path[0] + "/plots/ham_wordcloud.png")
 
     # Generate a word cloud for spam emails
+    spam_text = " ".join(email for email in email_df[email_df['spam'] == 1]['text'])
+    spam_wordcloud = WordCloud(width=500, height=500, max_font_size=75, max_words=150, background_color="white").generate(spam_text)
+    spam_wordcloud.to_file(sys.path[0] + "/plots/spam_wordcloud.png")
 
     # Generate a histogram of keyword frequencies
 
@@ -73,4 +79,4 @@ if __name__ == "__main__":
     data_clean_up(email_dfs)
     data_preprocessing(email_dfs)
     # Generate plot
-    # generate_feature_plot(email_dfs)
+    generate_feature_plot(email_dfs)
