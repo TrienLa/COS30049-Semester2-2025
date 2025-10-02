@@ -3,7 +3,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-import data_processing
+from data_processing import load_data, data_clean_up, data_preprocessing
 import pickle
 import sys, os
 
@@ -14,10 +14,12 @@ def data_fix(email_df):
     """
     Args:
         email_df (pandas DataFrame): DataFrame containing information from CSV file.
+    Returns:
+        pandas. DataFrame: A DataFrame containing emails data without NaN values.
     """
-    email_df_clean = email_df.dropna(subset=['text', 'spam']).copy()
-    email_df_clean['spam'] = email_df_clean['spam'].astype(int)
-    return email_df_clean
+    email_df_fix = email_df.dropna(subset=['text', 'spam']).copy()
+    email_df_fix['spam'] = email_df_fix['spam'].astype(int)
+    return email_df_fix
 
 def generate_model(email_df):
     """
@@ -47,8 +49,8 @@ def generate_model(email_df):
 if __name__ == "__main__":
     # Load the email data
     email_dfs = pd.read_csv(sys.path[0] + '/dataset/emails.csv')
-    data_processing.data_clean_up(email_dfs)
-    data_processing.data_preprocessing(email_dfs)
+    data_clean_up(email_dfs)
+    data_preprocessing(email_dfs)
     generate_model(data_fix(email_dfs))
 
     # Test prediction
