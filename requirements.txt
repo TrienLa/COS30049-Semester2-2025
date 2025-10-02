@@ -7,3 +7,4 @@ torchvision
 matplotlib
 wordcloud
 tensorflow
+pickle

@@ -34,7 +34,6 @@ def data_clean_up(df):
         print("Found " + str(df.duplicated().sum()) + " duplicate entries")
         df.drop_duplicates(inplace=True) # Remove duplicates from dataframe
         df.reset_index(inplace=True) # Reset the index column after removing duplicates
-    print(df)
     
 def data_preprocessing(df):
     """
@@ -43,7 +42,6 @@ def data_preprocessing(df):
     """
     df['text'] = df['text'].str.lower() # Lowercase all the text characters
     df['text'] = df['text'].str.replace(r'^subject\s*','',case=False, regex=True) # Remove all the starting subject text
-
 
 def generate_feature_plot(email_df):
     """
@@ -70,8 +68,6 @@ def generate_feature_plot(email_df):
     spam_wordcloud.to_file(sys.path[0] + "/plots/spam_wordcloud.png")
 
     # Generate a histogram of keyword frequencies
-
-    
 
 if __name__ == "__main__":
     # Load the email data
