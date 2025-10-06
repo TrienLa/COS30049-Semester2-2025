@@ -43,20 +43,19 @@ def generate_model(email_df):
     NaiveBayes_pipeline.fit(X_train, y_train)
 
     # Save model to a pickle file so we can use it later
-    with open('models/nb_classifier.pkl', 'wb') as picklefile:
+    with open('processed/models/nb_classifier.pkl', 'wb') as picklefile:
         pickle.dump(NaiveBayes_pipeline, picklefile)
 
 if __name__ == "__main__":
     # Load the email data
-    email_dfs = pd.read_csv(sys.path[0] + '/dataset/emails.csv')
+    email_dfs = pd.read_csv(sys.path[0] + 'dataset/emails.csv')
     data_clean_up(email_dfs)
     data_preprocessing(email_dfs)
     generate_model(data_fix(email_dfs))
     
     # Generate a confusion matrix
-    
 
     # Test prediction
-    with open('models/nb_classifier.pkl', 'rb') as tm:
+    with open('processed/models/nb_classifier.pkl', 'rb') as tm:
         new_pipe = pickle.load(tm)
         print(new_pipe.predict(['Subject hi im a fake email and this is a scam']))
