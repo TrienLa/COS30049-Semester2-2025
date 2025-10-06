@@ -1,6 +1,5 @@
 import pandas as pd
-import numpy as np
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -35,21 +34,21 @@ def generate_model(email_df):
     # Split dataset to training and testing
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Create pipeline with TfidfVectorizer and MultinomialNB
-    NaiveBayes_pipeline = Pipeline([
+    # Create pipeline with TfidfVectorizer and LogisticRegression
+    LRegression_pipeline = Pipeline([
         ('vectorizer', TfidfVectorizer(stop_words='english', max_df=0.7)),
-        ('classifier', MultinomialNB())
+        ('classifier', LogisticRegression(max_iter=1000))
     ])
 
     # Model train
-    NaiveBayes_pipeline.fit(X_train, y_train)
+    LRegression_pipeline.fit(X_train, y_train)
 
     # Save model to a pickle file so we can use it later
-    with open('processed/models/nb_model.pkl', 'wb') as picklefile:
-        pickle.dump(NaiveBayes_pipeline, picklefile)
+    with open('processed/models/lr_model.pkl', 'wb') as picklefile:
+        pickle.dump(LRegression_pipeline, picklefile)
 
     # Gerate a Confusion Matrix from available data
-    conf_matrix('nb_model', X_test, y_test)
+    conf_matrix('lr_model', X_test, y_test)
 
 if __name__ == "__main__":
     # Load the email data
@@ -57,3 +56,4 @@ if __name__ == "__main__":
     data_clean_up(email_dfs)
     data_preprocessing(email_dfs)
     generate_model(data_fix(email_dfs))
+    

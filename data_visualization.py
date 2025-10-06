@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import seaborn as sns
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -48,19 +49,18 @@ def conf_matrix(model, x_test, y_test):
     y_predict = new_pipe.predict(x_test)
     # Calculate confusion matrix from predicted data
     model_conf_matrix = confusion_matrix(y_predict, y_test)
-    # Ravel the calculated values
-    TN, FP, FN, TP = model_conf_matrix.ravel()
 
-    # Print metrics
-    print("True Positives (TP):", TP)
-    print("True Negatives (TN):", TN)
-    print("False Positives (FP):", FP)
-    print("False Negatives (FN):", FN)
+    group_names = ["TN", "FP", "FN", "TP"]
+    group_counts = ["{0:0.0f}".format(value) for value in
+                    model_conf_matrix.flatten()]
+
+    labels = [f"{v1}\n{v2}" for v1, v2 in zip(group_names,group_counts)]
+    labels = np.asarray(labels).reshape(2,2)
 
     # Generate confusion matrix plot
-    cmatrix_axes = sns.heatmap(model_conf_matrix, annot=True, fmt='.0f', cmap='Blues')
+    cmatrix_axes = sns.heatmap(model_conf_matrix, annot=labels, fmt='', cmap='Blues')
     cmatrix_axes.set(xlabel="Predicted Label", ylabel="True Label")
-    cmatrix_axes.set(title=f'Confusion Matrix of {model} Model')
+    cmatrix_axes.set(title=f'Confusion Matrix of {model}')
     cmatrix_plot = cmatrix_axes.get_figure()
     cmatrix_plot.savefig(f"processed/confusion_matrix/{model}.png")
 
