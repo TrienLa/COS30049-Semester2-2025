@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -36,7 +36,7 @@ def generate_model(email_df):
     # Create pipeline with CountVectorizer and MultinomialNB
     NaiveBayes_pipeline = Pipeline([
         ('vectorizer', CountVectorizer()),
-        ('classifier', MultinomialNB())
+        ('classifier', GaussianNB())
     ])
 
     # Model train
@@ -52,6 +52,9 @@ if __name__ == "__main__":
     data_clean_up(email_dfs)
     data_preprocessing(email_dfs)
     generate_model(data_fix(email_dfs))
+    
+    # Generate a confusion matrix
+    
 
     # Test prediction
     with open('models/nb_classifier.pkl', 'rb') as tm:
