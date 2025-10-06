@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from data_processing import load_data, data_clean_up, data_preprocessing
+from data_visualization import conf_matrix
 import pickle
 import sys, os
 
@@ -46,14 +47,15 @@ def generate_model(email_df):
     with open('processed/models/nb_classifier.pkl', 'wb') as picklefile:
         pickle.dump(NaiveBayes_pipeline, picklefile)
 
+    # Gerate a Confusion Matrix from available data
+    conf_matrix("nb_classifier", X_test, y_test)
+
 if __name__ == "__main__":
     # Load the email data
     email_dfs = pd.read_csv(sys.path[0] + 'dataset/emails.csv')
     data_clean_up(email_dfs)
     data_preprocessing(email_dfs)
     generate_model(data_fix(email_dfs))
-    
-    # Generate a confusion matrix
 
     # Test prediction
     with open('processed/models/nb_classifier.pkl', 'rb') as tm:

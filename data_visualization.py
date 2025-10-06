@@ -3,6 +3,8 @@ import seaborn as sns
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from data_processing import load_data
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
+import pickle
 import sys
 
 def generate_feature_plot(email_df):
@@ -30,6 +32,28 @@ def generate_feature_plot(email_df):
     spam_wordcloud.to_file(sys.path[0] + "processed/plots/spam_wordcloud.png")
 
     # Generate a histogram of keyword frequencies
+
+def conf_matrix(model, x_test, y_test):
+    # Load data from pickle file
+    with open(f'processed/models/{model}.pkl', 'rb') as tm:
+        new_pipe = pickle.load(tm)
+        
+    # Prediction data
+    y_predict = new_pipe.predict(x_test)
+    # Calculate confusion matrix from predicted data
+    model_conf_matrix = confusion_matrix(y_predict, y_test)
+    # Ravel the calculated values
+    TN, FP, FN, TP = model_conf_matrix.ravel()
+
+    # Print metrics
+    print("True Positives (TP):", TP)
+    print("True Negatives (TN):", TN)
+    print("False Positives (FP):", FP)
+    print("False Negatives (FN):", FN)
+
+    # Generate confusion matrix plot
+    cmatrix_plot = sns.heatmap(model_conf_matrix, annot=True).set(title=f'Confusion Matrix of {model} Model')
+    cmatrix_plot.savefig(sys.path[0] + f"processed/confusion_matrix/{model}.png")
 
 if __name__ == "__main__":
     # Load the email data
