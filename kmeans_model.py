@@ -3,12 +3,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics import adjusted_rand_score, silhouette_score
 from data_processing import load_data, data_clean_up, data_preprocessing
+from data_visualization import conf_matrix
 import os
 import pickle
 
 # Folder to save results
-os.makedirs("models", exist_ok=True)
-
+os.makedirs("processed/models", exist_ok=True)
 
 def extract_features(email_df):
     """
@@ -22,7 +22,6 @@ def extract_features(email_df):
     X = vectorizer.fit_transform(email_df['text'])
     return X, vectorizer
 
-
 def generate_kmeans_model(email_df, n_clusters=2):
     """
     Creates and evaluates a K-Means clustering model from email data.
@@ -31,7 +30,6 @@ def generate_kmeans_model(email_df, n_clusters=2):
     print("Extracting features...")
     X, vectorizer = extract_features(email_df)
     print("Training K-Means model...")
-
 
     # Create and train K-Means model
     kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
@@ -49,8 +47,8 @@ def generate_kmeans_model(email_df, n_clusters=2):
 
     # Save model and vectorizer
     base_dir = os.path.dirname(__file__)
-    model_path = os.path.join(base_dir, "models", "kmeans_model.pkl")
-    vectorizer_path = os.path.join(base_dir, "models", "kmeans_vectorizer.pkl")
+    model_path = os.path.join(base_dir, "processed", "models", "kmeans_model.pkl")
+    vectorizer_path = os.path.join(base_dir, "processed", "models", "kmeans_vectorizer.pkl")
 
     with open(model_path, "wb") as model_file:
         pickle.dump(kmeans, model_file)
@@ -58,6 +56,9 @@ def generate_kmeans_model(email_df, n_clusters=2):
         pickle.dump(vectorizer, vec_file)
 
     print(f"K-Means model saved successfully to: {model_path}")
+
+    # Gerate a Confusion Matrix from available data
+
     return kmeans
 
 

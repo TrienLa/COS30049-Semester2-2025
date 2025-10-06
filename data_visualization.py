@@ -34,6 +34,12 @@ def generate_feature_plot(email_df):
     # Generate a histogram of keyword frequencies
 
 def conf_matrix(model, x_test, y_test):
+    """
+    Args:
+        model (str): String of the model file that we will load up.
+
+        X_test (DataFrame): X_test data split from the vectorized DataFrame
+    """
     # Load data from pickle file
     with open(f'processed/models/{model}.pkl', 'rb') as tm:
         new_pipe = pickle.load(tm)
@@ -52,8 +58,11 @@ def conf_matrix(model, x_test, y_test):
     print("False Negatives (FN):", FN)
 
     # Generate confusion matrix plot
-    cmatrix_plot = sns.heatmap(model_conf_matrix, annot=True).set(title=f'Confusion Matrix of {model} Model')
-    cmatrix_plot.savefig(sys.path[0] + f"processed/confusion_matrix/{model}.png")
+    cmatrix_axes = sns.heatmap(model_conf_matrix, annot=True, fmt='.0f', cmap='Blues')
+    cmatrix_axes.set(xlabel="Predicted Label", ylabel="True Label")
+    cmatrix_axes.set(title=f'Confusion Matrix of {model} Model')
+    cmatrix_plot = cmatrix_axes.get_figure()
+    cmatrix_plot.savefig(f"processed/confusion_matrix/{model}.png")
 
 if __name__ == "__main__":
     # Load the email data
