@@ -1,4 +1,7 @@
 import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from data_utils import data_clean_up, data_preprocessing
 import sys
 
 def load_file(filename):
@@ -59,6 +62,21 @@ def dataframe_combine(df_list):
     result_df = pd.concat(df_list) # Concatenate the available list of DataFrame, it should have the same column index after clean up (text, spam)
     return result_df
 
+def dataset_features_extract(df, feature=None):
+    """
+    Args:
+        df (DataFrame): DataFrame loaded from the CSV file.
+        feature (String) : [length | tfidf] The feature you want to extract from the dataset
+    """
+    match feature:
+        case "length":
+            df["text_length"] = (df["text"].apply(lambda x: np.str_(x))).apply(len)
+            df.to_csv(sys.path[0] + "/dataset/extracted/length.csv",index=False)
+            return
+        case _:
+            print("No matching feature")
+
+
 if __name__ == "__main__":
     # Load the files to dataframe
     dataframe_list = []
@@ -76,6 +94,9 @@ if __name__ == "__main__":
 
     # Combine all the cleaned up dataframes
     combined_df = dataframe_combine(dataframe_list)
+
+    # Extract dataset features
+    dataset_features_extract(combined_df, "length")
 
     # Output the dataframe to csv
     combined_df.to_csv(sys.path[0] + "/dataset/combined_dataset.csv", index=False)
