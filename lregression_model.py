@@ -56,4 +56,3 @@ if __name__ == "__main__":
     data_clean_up(email_dfs)
     data_preprocessing(email_dfs)
     generate_model(data_fix(email_dfs))
-    
