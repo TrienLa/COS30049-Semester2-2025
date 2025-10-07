@@ -38,6 +38,7 @@ def data_preprocessing(df):
     """
     df['text'] = df['text'].str.lower() # Lowercase all the text characters
     df['text'] = df['text'].str.replace(r'^subject\s*','',case=False, regex=True) # Remove all the starting subject text
+    df['text'] = df['text'].str.replace('\n','',case=False) # Remove all new line
 
     # Check if there is any null entries
     df = df[df['text'].notnull()]
@@ -48,6 +49,13 @@ def data_preprocessing(df):
     # Index reset
     df.reset_index(inplace=True) # Reset the index column after removing duplicates
     df = df.drop('index', axis=1) # Remove the new index column
+
+    # Remove NaN entries for both text and spam
+    df = df.dropna(subset=['text', 'spam']).copy()
+
+    # Convert any invalid entries to string and int for easier checking
+    df['text'] = df['text'].astype(str)
+    df['spam'] = df['spam'].astype(int)
 
 def data_combine(df_list):
     """

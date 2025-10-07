@@ -12,17 +12,6 @@ import sys, os
 # Folder to save results
 os.makedirs("processed/models", exist_ok=True)
 
-def data_fix(email_df):
-    """
-    Args:
-        email_df (pandas DataFrame): DataFrame containing information from CSV file.
-    Returns:
-        pandas. DataFrame: A DataFrame containing emails data without NaN values.
-    """
-    email_df_fix = email_df.dropna(subset=['text', 'spam']).copy()
-    email_df_fix['spam'] = email_df_fix['spam'].astype(int)
-    return email_df_fix
-
 def generate_model(email_df):
     """
     Args:
@@ -53,7 +42,7 @@ def generate_model(email_df):
 
 if __name__ == "__main__":
     # Load the email data
-    email_dfs = pd.read_csv(sys.path[0] + '/dataset/emails.csv')
+    email_dfs = pd.read_csv(sys.path[0] + '/dataset/combined_dataset.csv')
     data_clean_up(email_dfs)
     data_preprocessing(email_dfs)
-    generate_model(data_fix(email_dfs))
+    generate_model(email_dfs)
