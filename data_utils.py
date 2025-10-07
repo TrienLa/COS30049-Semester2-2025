@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import sys
 
 def load_data(filename):
@@ -30,6 +31,7 @@ def data_clean_up(df):
         print("Found " + str(df.duplicated().sum()) + " duplicate entries")
         df.drop_duplicates(inplace=True) # Remove duplicates from dataframe
         df.reset_index(inplace=True) # Reset the index column after removing duplicates
+    return df
     
 def data_preprocessing(df):
     """
@@ -53,20 +55,16 @@ def data_preprocessing(df):
     # Remove NaN entries for both text and spam
     df = df.dropna(subset=['text', 'spam']).copy()
 
-    # Convert any invalid entries to string and int for easier checking
-    df['text'] = df['text'].astype(str)
-    df['spam'] = df['spam'].astype(int)
+    # Remove rows with value of float or int type
+    df = df.loc[df['text'].apply(type) == str]
 
-def data_combine(df_list):
-    """
-    Args:
-        df_list (list of DataFrame): DataFrame loaded from the CSV file. ex. [df1, df2, df3]
-    """
-    result_df = pd.concat(df_list) # Concatenate the available list of DataFrame, it should have the same column index after clean up (text, spam)
-    return result_df
+    # Convert any invalid entries to string and int for easier checking
+    df['text'] = df["text"].apply(lambda x: np.str_(x))
+    df['spam'] = df['spam'].astype(int)
+    return df
 
 if __name__ == "__main__":
     # Load the email data
-    email_dfs = load_data(sys.path[0] + "/dataset/emails.csv")
-    data_clean_up(email_dfs)
-    data_preprocessing(email_dfs)
+    email_dfs = load_data(sys.path[0] + "/dataset/combined_dataset.csv")
+    email_dfs = data_preprocessing(data_clean_up(email_dfs))
+    print(email_dfs)
