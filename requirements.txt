@@ -4,5 +4,4 @@ scikit-learn
 seaborn
 matplotlib
 wordcloud
-tf-nightly
 nltk
