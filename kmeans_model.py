@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics import adjusted_rand_score, silhouette_score
-from data_processing import load_data, data_clean_up, data_preprocessing
+from data_utils import load_data, data_clean_up, data_preprocessing
 from data_visualization import conf_matrix
 import os
 import pickle

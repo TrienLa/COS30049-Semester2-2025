@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-from data_processing import load_data
+from data_utils import load_data
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
 import pickle
 import sys

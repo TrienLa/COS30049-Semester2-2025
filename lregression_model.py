@@ -3,7 +3,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from data_processing import load_data, data_clean_up, data_preprocessing
+from data_utils import load_data, data_clean_up, data_preprocessing
 from data_visualization import conf_matrix
 import pickle
 import sys, os

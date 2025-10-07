@@ -4,7 +4,7 @@ from keras.layers import TextVectorization
 from keras.layers import Embedding, LSTM, Dense
 from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
-from data_processing import load_data, data_clean_up, data_preprocessing
+from data_utils import load_data, data_clean_up, data_preprocessing
 import sys, os
 
 # Folder to save results
