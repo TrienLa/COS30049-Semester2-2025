@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import re
 import sys
 
 def load_data(filename):
@@ -57,6 +58,12 @@ def data_preprocessing(df):
 
     # Remove rows with value of float or int type
     df = df.loc[df['text'].apply(type) == str]
+
+    # Remove rows that are only numbers or floats
+    df = df[~df['text'].str.fullmatch(r'[\d.]+')]
+
+    # Remove rows containing non-ASCII characters (ф, ж, 漢, etc.)
+    df = df[df['text'].apply(lambda x: bool(re.match(r'^[\x00-\x7F]+$', x)))]
 
     # Convert any invalid entries to string and int for easier checking
     df['text'] = df["text"].apply(lambda x: np.str_(x))

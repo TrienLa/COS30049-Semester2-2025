@@ -59,7 +59,7 @@ def generate_kmeans_model(email_df, n_clusters=2):
     print(f"K-Means model saved successfully to: {model_path}")
 
     # Gerate a Confusion Matrix from available data
-
+    
     return kmeans
 
 
