@@ -42,7 +42,7 @@ def generate_model(email_df):
 
 if __name__ == "__main__":
     # Load the email data
-    email_dfs = pd.read_csv(sys.path[0] + '/dataset/combined_dataset.csv')
-    data_clean_up(email_dfs)
-    data_preprocessing(email_dfs)
-    generate_model(email_dfs)
+    email_dfs = pd.read_csv(sys.path[0] + "/processed/clean_dataset/combined_dataset.csv")
+    
+    # Run the model training and generation function
+    generate_model(data_preprocessing(data_clean_up(email_dfs)))

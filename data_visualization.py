@@ -23,12 +23,12 @@ def generate_feature_plot(email_df):
     email_length.savefig(sys.path[0] + "/processed/plots/email_length.png")
 
     # Generate a word cloud for non spam emails
-    ham_text = " ".join(email for email in (email_df.to_string('text'))[email_df['spam'] == 0]['text']) # Add all the text in the dataset that isn't spam to a long string
+    ham_text = " ".join(email for email in email_df[email_df['spam'] == 0]['text']) # Add all the text in the dataset that isn't spam to a long string
     ham_wordcloud = WordCloud(width=500, height=500, max_font_size=75, max_words=150, background_color="white").generate(ham_text)
     ham_wordcloud.to_file(sys.path[0] + "/processed/plots/ham_wordcloud.png")
 
     # Generate a word cloud for spam emails
-    spam_text = " ".join(email for email in (email_df.to_string('text'))[email_df['spam'] == 1]['text'])
+    spam_text = " ".join(email for email in email_df[email_df['spam'] == 1]['text'])
     spam_wordcloud = WordCloud(width=500, height=500, max_font_size=75, max_words=150, background_color="white").generate(spam_text)
     spam_wordcloud.to_file(sys.path[0] + "/processed/plots/spam_wordcloud.png")
 
@@ -76,6 +76,6 @@ def conf_matrix(model, x_test, y_test):
 
 if __name__ == "__main__":
     # Load the email data
-    email_dfs = load_data(sys.path[0] + "/dataset/combined_dataset.csv")
+    email_dfs = load_data(sys.path[0] + "/processed/clean_dataset/combined_dataset.csv")
     # Generate plot
     generate_feature_plot(data_preprocessing(data_clean_up(email_dfs)))

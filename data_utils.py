@@ -53,7 +53,7 @@ def data_preprocessing(df):
     df = df.drop('index', axis=1) # Remove the new index column
 
     # Remove NaN entries for both text and spam
-    df = df.dropna(subset=['text', 'spam']).copy()
+    df = df[['text', 'spam']].dropna()
 
     # Remove rows with value of float or int type
     df = df.loc[df['text'].apply(type) == str]
@@ -65,6 +65,6 @@ def data_preprocessing(df):
 
 if __name__ == "__main__":
     # Load the email data
-    email_dfs = load_data(sys.path[0] + "/dataset/combined_dataset.csv")
+    email_dfs = load_data(sys.path[0] + "/processed/clean_dataset/combined_dataset.csv")
     email_dfs = data_preprocessing(data_clean_up(email_dfs))
     print(email_dfs)
