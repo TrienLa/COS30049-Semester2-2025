@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import nltk
 import sys
 
 def load_file(filename):
