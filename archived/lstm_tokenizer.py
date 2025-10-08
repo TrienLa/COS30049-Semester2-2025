@@ -3,7 +3,7 @@ import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import TextVectorization, Normalization
 from keras.layers import Embedding, LSTM, Dense
-from data_processing import load_data, data_clean_up, data_preprocessing
+from data_utils import load_data, data_clean_up, data_preprocessing
 import sys, os
 
 # Folder to save results
