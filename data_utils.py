@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import re
 import sys
 
 def load_data(filename):
@@ -53,10 +54,16 @@ def data_preprocessing(df):
     df = df.drop('index', axis=1) # Remove the new index column
 
     # Remove NaN entries for both text and spam
-    df = df.dropna(subset=['text', 'spam']).copy()
+    df = df[['text', 'spam']].dropna()
 
     # Remove rows with value of float or int type
     df = df.loc[df['text'].apply(type) == str]
+
+    # Remove rows that are only numbers or floats
+    df = df[~df['text'].str.fullmatch(r'[\d.]+')]
+
+    # Remove rows containing non-ASCII characters (ф, ж, 漢, etc.)
+    df = df[df['text'].apply(lambda x: bool(re.match(r'^[\x00-\x7F]+$', x)))]
 
     # Convert any invalid entries to string and int for easier checking
     df['text'] = df["text"].apply(lambda x: np.str_(x))
@@ -65,6 +72,6 @@ def data_preprocessing(df):
 
 if __name__ == "__main__":
     # Load the email data
-    email_dfs = load_data(sys.path[0] + "/dataset/combined_dataset.csv")
+    email_dfs = load_data(sys.path[0] + "/processed/clean_dataset/combined_dataset.csv")
     email_dfs = data_preprocessing(data_clean_up(email_dfs))
     print(email_dfs)
