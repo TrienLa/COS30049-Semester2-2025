@@ -2,9 +2,12 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics import adjusted_rand_score, silhouette_score
-from data_processing import load_data, data_clean_up, data_preprocessing
+#from data_processing import load_data, data_clean_up, data_preprocessing
+#from dataset_adapter import preprocess_train_dataset, preprocess_email_spam_dataset, preprocess_enron_dataset
+from data_loader import load_combined_email_data
 import os
 import pickle
+
 
 # Folder to save results
 os.makedirs("models", exist_ok=True)
@@ -64,20 +67,8 @@ def generate_kmeans_model(email_df, n_clusters=2):
 if __name__ == "__main__":
     # Step 1: Load dataset
     base_dir = os.path.dirname(os.path.abspath(__file__))  # path to this script
-    dataset_path = os.path.join(base_dir, "dataset", "emails.csv")
-
-    # sanity check
-    print(f"Loading dataset from: {dataset_path}")
-    if not os.path.exists(dataset_path):
-        raise FileNotFoundError(f"Dataset not found at {dataset_path}")
-
-    # Step 2: Clean and preprocess
-    email_df = load_data(dataset_path)
-    data_clean_up(email_df)
-    data_preprocessing(email_df)
-
-    # Step 3: Drop missing text
-    email_df = email_df.dropna(subset=['text'])
+    email_df = load_combined_email_data(base_dir)
 
     # Step 4: Generate and save K-Means model
     kmeans = generate_kmeans_model(email_df)
+
