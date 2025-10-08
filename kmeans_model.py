@@ -6,6 +6,7 @@ from data_utils import load_data, data_clean_up, data_preprocessing
 from data_visualization import conf_matrix
 import os
 import pickle
+import sys
 
 # Folder to save results
 os.makedirs("processed/models", exist_ok=True)
@@ -63,22 +64,10 @@ def generate_kmeans_model(email_df, n_clusters=2):
 
 
 if __name__ == "__main__":
-    # Step 1: Load dataset
     base_dir = os.path.dirname(os.path.abspath(__file__))  # path to this script
-    dataset_path = os.path.join(base_dir, "dataset", "emails.csv")
-
-    # sanity check
-    print(f"Loading dataset from: {dataset_path}")
-    if not os.path.exists(dataset_path):
-        raise FileNotFoundError(f"Dataset not found at {dataset_path}")
-
-    # Step 2: Clean and preprocess
-    email_df = load_data(dataset_path)
-    data_clean_up(email_df)
-    data_preprocessing(email_df)
-
-    # Step 3: Drop missing text
-    email_df = email_df.dropna(subset=['text'])
+    email_df = pd.read_csv(sys.path[0] + '/dataset/combined_dataset.csv')
+    email_df = data_clean_up(email_df)
+    email_df = data_preprocessing(email_df)
 
     # Step 4: Generate and save K-Means model
     kmeans = generate_kmeans_model(email_df)
