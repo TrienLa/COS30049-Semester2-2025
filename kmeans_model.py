@@ -1,9 +1,15 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
-from sklearn.metrics import adjusted_rand_score, silhouette_score
+from sklearn.metrics import adjusted_rand_score, silhouette_score, confusion_matrix, classification_report
+
 from data_utils import load_data, data_clean_up, data_preprocessing
 from data_visualization import conf_matrix
+from scipy.stats import mode
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import numpy as np
 import os
 import pickle
 import sys
@@ -46,6 +52,28 @@ def generate_kmeans_model(email_df, n_clusters=2):
         print(f"Adjusted Rand Index: {ari:.4f}")
         print(f"Silhouette Score: {silhouette:.4f}")
 
+        # Confusion Matrix
+        y_true = email_df['spam'].to_numpy()
+        y_pred = map_clusters_to_labels(kmeans.labels_, y_true)
+
+        cm = confusion_matrix(y_true, y_pred)
+        print("\nConfusion Matrix:")
+        print(cm)
+
+        print("\nClassification Report:")
+        print(classification_report(y_true, y_pred, target_names=["Ham", "Spam"]))
+
+        # Optional: Heatmap
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                    xticklabels=["Ham", "Spam"],
+                    yticklabels=["Ham", "Spam"])
+        plt.xlabel("Predicted")
+        plt.ylabel("Actual")
+        plt.title("Confusion Matrix (K-Means Clustering)")
+        os.makedirs("processed/confusion_matrix", exist_ok=True)
+        plt.savefig("processed/confusion_matrix/kmeans_confusion_matrix.png", dpi=300)
+        plt.show()
+
     # Save model and vectorizer
     base_dir = os.path.dirname(__file__)
     model_path = os.path.join(base_dir, "processed", "models", "kmeans_model.pkl")
@@ -62,6 +90,15 @@ def generate_kmeans_model(email_df, n_clusters=2):
 
     return kmeans
 
+def map_clusters_to_labels(cluster_labels, true_labels):
+    """
+    Map each KMeans cluster to the most frequent true label within it.
+    """
+    mapped = np.zeros_like(cluster_labels)
+    for cluster in np.unique(cluster_labels):
+        mask = cluster_labels == cluster
+        mapped[mask] = mode(true_labels[mask])[0]
+    return mapped
 
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.abspath(__file__))  # path to this script
@@ -71,3 +108,5 @@ if __name__ == "__main__":
 
     # Step 4: Generate and save K-Means model
     kmeans = generate_kmeans_model(email_df)
+
+
