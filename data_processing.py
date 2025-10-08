@@ -22,7 +22,7 @@ def load_file(filename):
         print(f"Error loading data: {e}")
         return None
     
-def dataframe_cleanup(df, method=1):
+def dataframe_normalise(df, method=1):
     """
     Args:
         df (DataFrame): DataFrame loaded from the CSV file.
@@ -59,7 +59,7 @@ def dataset_features_extract(df, feature=None):
     """
     Args:
         df (DataFrame): DataFrame loaded from the CSV file.
-        feature (String) : [length | tfidf] The feature you want to extract from the dataset
+        feature (String) : [length | frequency | presence] The feature you want to extract from the dataset
     """
     match feature:
         case "length":
@@ -84,10 +84,10 @@ if __name__ == "__main__":
     dataframe_list.append(load_file(sys.path[0] + "/dataset/train.csv"))
     dataframe_list.append(load_file(sys.path[0] + "/dataset/spam_emails_5k5.csv"))
 
-    # Clean up the dataframes
-    dataframe_list[1] = dataframe_cleanup(dataframe_list[1], 1)
-    dataframe_list[2] = dataframe_cleanup(dataframe_list[2], 2)
-    dataframe_list[3] = dataframe_cleanup(dataframe_list[3], 3)
+    # Normalise the dataframes
+    dataframe_list[1] = dataframe_normalise(dataframe_list[1], 1)
+    dataframe_list[2] = dataframe_normalise(dataframe_list[2], 2)
+    dataframe_list[3] = dataframe_normalise(dataframe_list[3], 3)
 
     # Combine all the cleaned up dataframes
     combined_df = dataframe_combine(dataframe_list)
