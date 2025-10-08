@@ -34,25 +34,47 @@ def dataframe_cleanup(df, method=1):
             newdf = pd.DataFrame()
             newdf["text"] = df["title"] + ' ' + df["text"]
             newdf["spam"] = (df["type"] == 'spam').astype(int)
-            return newdf
+            return remove_invalid_data(newdf)
         case 2: # train.csv structure
             newdf = pd.DataFrame()
             newdf["text"] = df["text"]
             newdf["spam"] = df["label_num"]
-            return newdf
+            return remove_invalid_data(newdf)
         case 3: # enron_spam_data.csv structure
             newdf = pd.DataFrame()
             newdf["text"] = df["Subject"] + ' ' + df["Message"]
             newdf["spam"] = (df["Spam/Ham"] == 'spam').astype(int)
-            return newdf
+            return remove_invalid_data(newdf)
         case 4: # spam_emils_5k5.csv structure
             newdf = pd.DataFrame()
             newdf["text"] = df["Message"]
             newdf["spam"] = (df["Category"] == 'spam').astype(int)
-            return newdf
+            return remove_invalid_data(newdf)
         case _:
             print(f"Invalid method {method}")
 
+
+def remove_invalid_data(df):
+    """
+    Removes unwanted rows from the DataFrame:
+    - Drops NaN or empty 'text' values
+    - Removes rows that contain only numbers or floats
+    - Removes rows with non-ASCII characters (ф, ж, 漢, etc.)
+    """
+    df = df.dropna(subset=['text']).copy()
+    df['text'] = df['text'].astype(str).str.strip()
+    df = df[df['text'] != ""]
+
+    # Remove rows that are only numbers or floats
+    df = df[~df['text'].str.fullmatch(r'[\d.]+')]
+
+    # Remove rows containing non-ASCII characters
+    df = df[df['text'].apply(lambda x: bool(re.match(r'^[\x00-\x7F]+$', x)))]
+
+    # Reset index
+    df = df.reset_index(drop=True)
+
+    return df
 
 def dataframe_combine(df_list):
     """
@@ -100,3 +122,6 @@ if __name__ == "__main__":
 
     # Output the dataframe to csv
     combined_df.to_csv(sys.path[0] + "/dataset/combined_dataset.csv", index=False)
+
+
+
