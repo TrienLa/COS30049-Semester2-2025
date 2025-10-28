@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from model import NaiveBayes, LinearRegression
@@ -15,7 +15,7 @@ logger = Logger.setup_logger()
 # CORS handle middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origin=["http://localhost:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -52,8 +52,8 @@ async def http_except_handler(request: Request, exc: HTTPException):
     )
 
 # Initilise Models
-nb = NaiveBayes()
-lg = LinearRegression()
+# nb = NaiveBayes()
+# lg = LinearRegression()
 
 # Root call
 @app.get("/")
@@ -86,6 +86,6 @@ async def predict_price(input: UserInput):
         # Raise an HTTP 500 Internal Server Error if prediction fails
         raise HTTPException(status_code=500, detail="Internal server error")
 
-import uvicorn
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    import uvicorn
+    uvicorn.run("__main__:app", host="0.0.0.0", port=8000, reload=True)

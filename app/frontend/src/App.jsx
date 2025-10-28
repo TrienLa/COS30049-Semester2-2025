@@ -32,8 +32,27 @@ function App() {
   const [emailData, setEmailData] = useState('');
   const [spamEmail, setSpamEmail] = useState(null);
   const [error, setError] = useState('');
+  const [msg, setMsg] = useState('');
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  async function getRootMsg() {
+
+      try {
+        await Promise.all(
+          axios.get(`http://localhost:8000/`).then((res) => {console.log(res);})
+        );
+
+        console.log(msg)
+
+      } catch (err) {
+        setError('Something went wrong getting message from root.');
+        console.error(err);
+      } 
+      
+  };
+
+  getRootMsg();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,12 +109,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <Container>
         <Box>
+          
           <Typography variant="h3" component="h1" gutterBottom>
             Email Spam Classifier
           </Typography>
+
           <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
+
                 <Grid size={12}>
                   <TextField
                     fullWidth
@@ -107,6 +129,7 @@ function App() {
                     required
                   />
                 </Grid>
+
                 <Grid size={12}>
                   <Button
                     type="submit"
@@ -118,19 +141,23 @@ function App() {
                     {loading ? <CircularProgress size={24} /> : 'Predict Email'}
                   </Button>
                 </Grid>
+
               </Grid>
             </form>
+
           </Paper>
           {error && (
             <Typography color="error" sx={{ mb: 2 }}>
               {error}
             </Typography>
           )}
+
           {spamEmail && (
             <Paper elevation={3} sx={{ p: 3 }}>
               <Typography variant="h5" gutterBottom>
                 Predicted Price: ${spamEmail.toLocaleString()}
               </Typography>
+
               {chartData && (
                 <Box sx={{ mt: 3 }}>
                   <Line
