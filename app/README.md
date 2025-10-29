@@ -1,31 +1,33 @@
-# Email Classification Models
+# Email Classification Web Application
 ## Overview
-This project aims to train on a dataset of various spam emails and SNS messages to utilize a machine learning algorithm ultimately classify harmful contents feed back to the model. The project mainly use Python machine learning library `sklearn` to generate and train these classification models.
+Using the previously trained models, utilising FastAPI and React to create a responsive web application. Able to identify and classify spam emails from text input.
 
 ## Setting up
-To create your local copy of the file, you can use this command in a command prompt. This will download all the repository files onto your device.
+Installing the required packages for both the frontend and backend using the following commands.
+
+### Frontend
 ```
-git clone https://github.com/TrienLa/COS30049-Semester2-2025
+cd [path to repo]/frontend
+npm install
 ```
 
-## Environment and dependencies
-Once you download / clone the repository, you can start setting up the environment to run the project. Run the following command after you CD to the project directory to install any missing prerequisite libraries. 
+### Backend
 ```
+cd [path to repo]/backend
 python install -r requirements.txt
 ```
 
-## Dataset Cleanup & Preparation
-The dataset we have will need further processing, so running ` data_processing.py ` to clean up the dataset while also extracting features for our models' training.
+## Running the app
+### Backend
+The backend can be started using the following command. It will open the backend to port ```8000```.
 ```
-python data_processing.py
-```
-
-## Model Generation & Output
-Now that we have both the environment and the dataset, we can start running ` nb_model.py `, ` lregression_model.py `, ` kmeans_model.py ` to generate their corresponding models which we can retrieve at a later point to do real-time classification.
-```
-python nb_model.py
-python lregression_model.py
-python kmeans_model.py
+cd [path to repo]/frontend
+python main.py
 ```
 
-We use Python's ` pickle ` library to serialise each model and load them later when we need them.
+### Frontend
+The frontend can be started using the following command.
+```
+cd [path to repo]/backend
+npm run dev
+```
