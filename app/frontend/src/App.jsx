@@ -1,3 +1,4 @@
+// Import 
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
@@ -28,6 +29,7 @@ const theme = createTheme({
   },
 });
 
+// Create App component, which will run every second in main.jsx
 function App() {
   const [emailData, setEmailData] = useState('');
   const [spamEmail, setSpamEmail] = useState(null);
@@ -36,6 +38,7 @@ function App() {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);
 
+// TEST FUNCTION BELOW
   async function getRootMsg() {
 
       try {
@@ -53,15 +56,19 @@ function App() {
   };
 
   getRootMsg();
+// END OF TEST FUNCTION
 
+  // Async function for pressing button
   const handleSubmit = async (e) => {
+
+    // Call all the app state
     e.preventDefault();
     setError('');
     setSpamEmail(null);
     setLoading(true);
 
     try {
-      // Axios call to the backend to predict house price
+      // Axios call to the backend at "/predict/[bedroom number]" to predict
       const response = await axios.get(`http://localhost:8000/predict/${bedrooms}`);
       setSpamEmail(response.data.predicted_result);
 
@@ -98,18 +105,20 @@ function App() {
       };
       setChartData(newChartData);  // Set the chart data in state
     } catch (err) {
-      setError('Error predicting price. Please try again.');
+      setError('Error predicting price. Please try again.'); // Set error message state
       console.error(err);
     } finally {
-      setLoading(false);
+      setLoading(false); // 
     }
   };
 
+  // Return the layout of the app
   return (
     <ThemeProvider theme={theme}>
       <Container>
         <Box>
           
+          {/*Header*/}
           <Typography variant="h3" component="h1" gutterBottom>
             Email Spam Classifier
           </Typography>
@@ -117,8 +126,9 @@ function App() {
           <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-
                 <Grid size={12}>
+
+                  {/*Text input field*/}
                   <TextField
                     fullWidth
                     type="string"
@@ -131,6 +141,7 @@ function App() {
                 </Grid>
 
                 <Grid size={12}>
+                  {/*Button input*/}
                   <Button
                     type="submit"
                     variant="contained"
@@ -146,12 +157,15 @@ function App() {
             </form>
 
           </Paper>
+
+          {/*Error message output*/}
           {error && (
             <Typography color="error" sx={{ mb: 2 }}>
               {error}
             </Typography>
           )}
 
+          {/*Result from the email*/}
           {spamEmail && (
             <Paper elevation={3} sx={{ p: 3 }}>
               <Typography variant="h5" gutterBottom>
