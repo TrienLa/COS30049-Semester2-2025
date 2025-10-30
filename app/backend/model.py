@@ -9,7 +9,6 @@ class NaiveBayes:
             self.new_pipe = pickle.load(tm)
         pass
         
-
     def predict(self, input):
         # Make predictions
         results = self.new_pipe.predict(input)
@@ -22,7 +21,6 @@ class LinearRegression:
             self.new_pipe = pickle.load(tm)
         pass
         
-
     def predict(self, input):
         # Make predictions
         results = self.new_pipe.predict(input)

@@ -1,5 +1,6 @@
 // Import 
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
@@ -14,6 +15,9 @@ import {
   CircularProgress
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+// Import components
+import PredictPage from './Predict.jsx';
 
 // Registering Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -55,7 +59,7 @@ function App() {
       
   };
 
-  getRootMsg();
+// getRootMsg();
 // END OF TEST FUNCTION
 
   // Async function for pressing button
@@ -112,8 +116,32 @@ function App() {
     }
   };
 
+  const sendMsgToBackend = async (e) => {
+
+    // Call all the app state
+    e.preventDefault();
+    setError('');
+    setMsg('');
+
+    try {
+
+        await Promise.all(
+          axios.get(`http://localhost:8000/`).then((res) => {console.log(res);})
+        );
+
+        console.log(msg)
+
+    } catch (err) {
+      setError('Error receiving message'); // Set error message state
+      console.error(err);
+    } finally {
+      setLoading(false); // 
+    }
+  };
+
   // Return the layout of the app
   return (
+    <Router> {/*Init the router core*/}
     <ThemeProvider theme={theme}>
       <Container>
         <Box>
@@ -133,6 +161,41 @@ function App() {
                     fullWidth
                     type="string"
                     label="Email Input"
+                    variant="outlined"
+                    value={emailData}
+                    onChange={(e) => setEmailData(e.target.value)}
+                    required
+                  />
+                </Grid>
+
+                <Grid size={12}>
+                  {/*Button input*/}
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    disabled={loading}
+                  >
+                    {loading ? <CircularProgress size={24} /> : 'Predict Email'}
+                  </Button>
+                </Grid>
+
+              </Grid>
+            </form>
+          </Paper>
+
+          {/* TEST SECTMENT*/}
+          <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid size={12}>
+
+                  {/*Text input field*/}
+                  <TextField
+                    fullWidth
+                    type="string"
+                    label="Text Input"
                     variant="outlined"
                     value={emailData}
                     onChange={(e) => setEmailData(e.target.value)}
@@ -212,6 +275,14 @@ function App() {
         </Box>
       </Container>
     </ThemeProvider>
+
+    <Routes> {/* List of routes*/}
+      <Route path="/" element={<App/>} />
+      <Route path="/predict" element={<PredictPage/>} />
+    </Routes>
+
+
+    </Router>
   );
 }
 
