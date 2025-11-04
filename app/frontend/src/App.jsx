@@ -6,18 +6,15 @@
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import axios from 'axios';
 import {
-  AppBar, Toolbar, Typography, Container, Grid, Card, CardContent, Button, Box,
-  Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, TextField,
-  Switch, Snackbar, Alert, Fab, Dialog, DialogTitle, DialogContent, DialogContentText,
-  DialogActions, CircularProgress, LinearProgress, Chip, Avatar, Divider, Paper
+  AppBar, Toolbar, Typography, Container, Button, Box,
+  Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton,
+  Switch, Snackbar, Alert, Fab, Divider, Paper
 } from '@mui/material';
 import {
   Menu as MenuIcon,
   Home as HomeIcon,
   Info as InfoIcon,
-  Mail as MailIcon,
   Add as AddIcon,
 } from '@mui/icons-material';
 
@@ -69,9 +66,9 @@ function HomePage() {
           display: 'flex',
           justifyContent: 'space-evenly',
           alignItems: 'stretch',
-          flexWrap: 'nowrap',          // ✅ stays on one row
+          flexWrap: 'nowrap',
           width: '100%',
-          maxWidth: 1200,              // ✅ constrains total width to typical viewport
+          maxWidth: 1200,
           mb: 6,
           gap: 3,
         }}
@@ -85,8 +82,8 @@ function HomePage() {
             key={index}
             elevation={4}
             sx={{
-              flex: '1 1 30%',         // ✅ roughly one-third each
-              maxWidth: 340,           // ✅ smaller than before — fits within 1080 px width
+              flex: '1 1 30%',
+              maxWidth: 340,
               minWidth: 280,
               textAlign: 'center',
               p: 3,
@@ -101,7 +98,6 @@ function HomePage() {
         ))}
       </Box>
 
-
       {/* ---------- Call to Action ---------- */}
       <Button
         variant="contained"
@@ -115,7 +111,6 @@ function HomePage() {
     </Container>
   );
 }
-
 
 // ===========================================
 // 📄 ABOUT PAGE
@@ -134,7 +129,6 @@ function About() {
         alignItems: 'center',
       }}
     >
-      {/* ---------- Header ---------- */}
       <Typography variant="h3" gutterBottom>
         About Us
       </Typography>
@@ -150,7 +144,7 @@ function About() {
         variant="body1"
         sx={{ mb: 5, textAlign: 'left', maxWidth: 900 }}
       >
-        [this is where we can talk deeper about how everything works in a more technical sense]
+        [This is where we can talk deeper about how everything works in a more technical sense.]
       </Typography>
 
       {/* ---------- Team Member Cards ---------- */}
@@ -159,80 +153,40 @@ function About() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'stretch',
-          flexWrap: 'wrap',     // ✅ wraps on smaller screens
-          gap: 4,               // ✅ spacing between cards
+          flexWrap: 'wrap',
+          gap: 4,
           width: '100%',
-          maxWidth: 1200,       // ✅ keeps layout centered
-          pb: 6,                // ✅ prevents footer overlap
+          maxWidth: 1200,
+          pb: 6,
         }}
       >
-        {/* Member 1 */}
-        <Paper
-          elevation={4}
-          sx={{
-            p: 3,
-            flex: '1 1 300px',
-            maxWidth: 360,
-            textAlign: 'center',
-            borderRadius: 3,
-          }}
-        >
-          <Typography variant="h5" gutterBottom>
-            Santiago Merchant
-          </Typography>
-          <Typography variant="body2">
-            [About]
-          </Typography>
-        </Paper>
-
-        {/* Member 2 */}
-        <Paper
-          elevation={4}
-          sx={{
-            p: 3,
-            flex: '1 1 300px',
-            maxWidth: 360,
-            textAlign: 'center',
-            borderRadius: 3,
-          }}
-        >
-          <Typography variant="h5" gutterBottom>
-            Thien La
-          </Typography>
-          <Typography variant="body2">
-            [About]
-          </Typography>
-        </Paper>
-
-        {/* Member 3 */}
-        <Paper
-          elevation={4}
-          sx={{
-            p: 3,
-            flex: '1 1 300px',
-            maxWidth: 360,
-            textAlign: 'center',
-            borderRadius: 3,
-          }}
-        >
-          <Typography variant="h5" gutterBottom>
-            Trien La
-          </Typography>
-          <Typography variant="body2">
-            [About]
-          </Typography>
-        </Paper>
+        {[
+          { name: 'Santiago Merchant', about: '[About]' },
+          { name: 'Thien La', about: '[About]' },
+          { name: 'Trien La', about: '[About]' },
+        ].map((member, index) => (
+          <Paper
+            key={index}
+            elevation={4}
+            sx={{
+              p: 3,
+              flex: '1 1 300px',
+              maxWidth: 360,
+              textAlign: 'center',
+              borderRadius: 3,
+            }}
+          >
+            <Typography variant="h5" gutterBottom>
+              {member.name}
+            </Typography>
+            <Typography variant="body2">{member.about}</Typography>
+          </Paper>
+        ))}
       </Box>
     </Container>
   );
 }
 
-
-
-
-// ===========================================
-// 📊 DATA VISUALISATIONS PAGE (Placeholder)
-// ===========================================
 // ===========================================
 // 📊 DATA VISUALISATIONS PAGE
 // ===========================================
@@ -247,96 +201,59 @@ function Visualisations() {
         mb: 6,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center', // ✅ keeps everything centered
+        alignItems: 'center',
       }}
     >
       <Typography variant="h3" gutterBottom>
         Model Visualisations & Insights
       </Typography>
-
       <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: 900 }}>
         Explore how the spam classifier performs on test data, and view insights
         from the dataset used to train it.
       </Typography>
 
-      {/* ---------- Dataset Overview ---------- */}
-      <Paper
-        sx={{
-          p: 4,
-          mb: 5,
-          borderRadius: 3,
-          width: '100%',
-          maxWidth: 1000, // ✅ gives room for larger visuals
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
-          Dataset Distribution
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 2 }}>
-          Number of spam vs. non-spam emails in the dataset.
-        </Typography>
-        <Box
+      {[
+        {
+          title: 'Dataset Distribution',
+          desc: 'Number of spam vs. non-spam emails in the dataset.',
+        },
+        {
+          title: 'Model Accuracy',
+          desc: 'Comparison of training and validation accuracy across epochs.',
+        },
+        {
+          title: 'Confusion Matrix',
+          desc: 'Visual representation of predicted vs. actual classifications.',
+        },
+      ].map((section, index) => (
+        <Paper
+          key={index}
           sx={{
-            height: 350,
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            borderRadius: 2,
+            p: 4,
+            mb: 5,
+            borderRadius: 3,
+            width: '100%',
+            maxWidth: 1000,
           }}
-        />
-      </Paper>
-
-      {/* ---------- Model Performance ---------- */}
-      <Paper
-        sx={{
-          p: 4,
-          mb: 5,
-          borderRadius: 3,
-          width: '100%',
-          maxWidth: 1000,
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
-          Model Accuracy
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 2 }}>
-          Comparison of training and validation accuracy across epochs.
-        </Typography>
-        <Box
-          sx={{
-            height: 350,
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            borderRadius: 2,
-          }}
-        />
-      </Paper>
-
-      {/* ---------- Confusion Matrix ---------- */}
-      <Paper
-        sx={{
-          p: 4,
-          mb: 5,
-          borderRadius: 3,
-          width: '100%',
-          maxWidth: 1000,
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
-          Confusion Matrix
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 2 }}>
-          Visual representation of predicted vs. actual classifications.
-        </Typography>
-        <Box
-          sx={{
-            height: 350,
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            borderRadius: 2,
-          }}
-        />
-      </Paper>
+        >
+          <Typography variant="h5" gutterBottom>
+            {section.title}
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            {section.desc}
+          </Typography>
+          <Box
+            sx={{
+              height: 350,
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              borderRadius: 2,
+            }}
+          />
+        </Paper>
+      ))}
     </Container>
   );
 }
-
 
 // ===========================================
 // 🧩 MAIN APP COMPONENT
@@ -345,8 +262,6 @@ function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) return;
@@ -361,18 +276,6 @@ function App() {
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') return;
     setSnackbarOpen(false);
-  };
-
-  const handleDialogOpen = () => setDialogOpen(true);
-  const handleDialogClose = () => setDialogOpen(false);
-
-  const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      handleDialogClose();
-      setSnackbarOpen(true);
-    }, 2000);
   };
 
   // ===========================================
@@ -390,25 +293,17 @@ function App() {
           <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
-
         <ListItem button component={Link} to="/about">
           <ListItemIcon><InfoIcon /></ListItemIcon>
           <ListItemText primary="About" />
         </ListItem>
-
         <ListItem button component={Link} to="/predict">
           <ListItemIcon><AddIcon /></ListItemIcon>
           <ListItemText primary="Predict" />
         </ListItem>
-
         <ListItem button component={Link} to="/visualisations">
           <ListItemIcon><InfoIcon /></ListItemIcon>
           <ListItemText primary="Visualisations" />
-        </ListItem>
-
-        <ListItem button onClick={handleDialogOpen}>
-          <ListItemIcon><MailIcon /></ListItemIcon>
-          <ListItemText primary="Contact" />
         </ListItem>
       </List>
 
@@ -434,15 +329,13 @@ function App() {
             display: 'flex',
             flexDirection: 'column',
             minHeight: '100vh',
-            width: '100vw',               // ✅ ensures it matches viewport width
+            width: '100vw',
             bgcolor: darkMode ? 'grey.900' : 'background.default',
             color: darkMode ? 'common.white' : 'common.black',
             overflowX: 'hidden',
-            overflowY: 'auto',            // ✅ keeps scrolling behaviour clean
+            overflowY: 'auto',
           }}
         >
-
-        
           {/* 🔝 APP BAR */}
           <AppBar position="static" sx={{ width: '100%' }}>
             <Toolbar>
@@ -458,7 +351,6 @@ function App() {
               <Button color="inherit" component={Link} to="/about">About</Button>
               <Button color="inherit" component={Link} to="/predict">Predict</Button>
               <Button color="inherit" component={Link} to="/visualisations">Visualisations</Button>
-              <Button color="inherit" onClick={handleDialogOpen}>Contact</Button>
             </Toolbar>
           </AppBar>
 
@@ -498,24 +390,6 @@ function App() {
               {darkMode ? 'Dark mode enabled!' : 'Light mode enabled!'}
             </Alert>
           </Snackbar>
-
-          {/* 📩 CONTACT DIALOG */}
-          <Dialog open={dialogOpen} onClose={handleDialogClose}>
-            <DialogTitle>Contact Us</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Fill out this form to get in touch with the team.
-              </DialogContentText>
-              <TextField autoFocus margin="dense" label="Your Name" type="text" fullWidth variant="standard" />
-              <TextField margin="dense" label="Email Address" type="email" fullWidth variant="standard" />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleDialogClose}>Cancel</Button>
-              <Button onClick={handleSubmit} disabled={loading}>
-                {loading ? <CircularProgress size={24} /> : 'Submit'}
-              </Button>
-            </DialogActions>
-          </Dialog>
         </Box>
       </ThemeProvider>
     </Router>
