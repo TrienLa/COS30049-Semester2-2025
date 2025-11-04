@@ -1,4 +1,3 @@
-enron_spam_data.csv, https://github.com/MWiechmann/enron_spam_data
 spam_emails_5k5.csv, https://huggingface.co/datasets/mnemoraorg/spam-email-5k5
 email_spam.csv, https://huggingface.co/datasets/UniqueData/email-spam-classification
 train.csv, https://huggingface.co/datasets/NotShrirang/email-spam-filter
