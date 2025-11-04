@@ -26,7 +26,7 @@ python main.py
 ```
 
 ### Frontend
-The frontend can be started using the following command.
+The frontend can be started using the following command. You will need to open a 2nd command line window to do this
 ```
 cd [path to repo]/backend
 npm run dev
