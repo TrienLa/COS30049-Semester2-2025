@@ -12,14 +12,22 @@ npm install
 ```
 
 ### Backend
+For the backend, you can install the packages using either `requirements.txt` or `setup.py`.
+
 ```
 cd [path to repo]/backend
 python install -r requirements.txt
 ```
+Or
+
+```
+cd [path to repo]/backend
+python setup.py
+```
 
 ## Running the app
 ### Backend
-The backend can be started using the following command. It will open the backend to port ```8000```.
+The backend can be started using the following command. It will open the backend to port `8000`.
 ```
 cd [path to repo]/frontend
 python main.py
