@@ -52,8 +52,8 @@ async def http_except_handler(request: Request, exc: HTTPException):
     )
 
 # Initilise Models
-# nb = NaiveBayes()
-# lg = LinearRegression()
+nb = NaiveBayes()
+lg = LinearRegression()
 
 # Root call
 @app.get("/")
@@ -67,17 +67,19 @@ async def predict_price(input: UserInput):
         # Call the model's predict method using the input data
         match (input.model):
             case 'NaiveBayes':
-                result = NaiveBayes.predict(input.text_input)
+                result = nb.predict(input.text_input)
                 pass
             case 'LinearRegression':
-                result = LinearRegression.predict(input.text_input)
+                result = lg.predict(input.text_input)
                 pass
         
         # Log the prediction details (price, square footage, and bedrooms)
         logger.info(f"Prediction came out as: {result} for \"{input.text_input}\" text, using {input.model}")
         
         # Return the predicted price in JSON format, rounding to 2 decimal places
-        return {"predicted email type": round(result, 2)}
+        return JSONResponse(
+            predicted_email_type = round(result, 2)
+            )
     
     except Exception as e:
         # Log the error if an exception occurs during prediction

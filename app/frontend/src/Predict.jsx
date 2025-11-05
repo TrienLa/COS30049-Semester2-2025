@@ -9,6 +9,8 @@ import {
   Grid,
   Box,
   CircularProgress,
+  Select,
+  MenuItem
 } from '@mui/material';
 
 function Visualisation() {
@@ -16,6 +18,11 @@ function Visualisation() {
   const [spamResult, setSpamResult] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [model, setModel] = useState('NaiveBayes');
+
+  const handleModelSelect = async (e) => {
+    setModel(e.target.value);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +32,8 @@ function Visualisation() {
 
     try {
       const response = await axios.post('http://localhost:8000/predict', {
-        email_text: emailData,
+        text_input: emailData,
+        model: model
       });
       setSpamResult(response.data.result || 'No response from model');
     } catch (err) {
@@ -73,6 +81,18 @@ function Visualisation() {
             required
             sx={{ mb: 3 }}            // ⬇ adds space before the button
             />
+
+            <Select
+            label="Model"
+            id="modelSelect"
+            value={model}
+            onChange={handleModelSelect}
+            color="primary"
+            sx={{ mb: 3 }}
+            >
+              <MenuItem value={"NaiveBayes"}>Naive Bayes</MenuItem>
+              <MenuItem value={"LinearRegression"}>Linear Regression</MenuItem>
+            </Select>
 
             <Button
             type="submit"
