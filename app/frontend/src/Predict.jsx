@@ -35,7 +35,7 @@ function Visualisation() {
         text_input: emailData,
         model: model
       });
-      setSpamResult(response.data.result || 'No response from model');
+      setSpamResult(response.data || 'No response from model');
     } catch (err) {
       console.error(err);
       setError('Error connecting to backend or predicting. Please try again.');

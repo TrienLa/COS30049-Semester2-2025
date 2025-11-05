@@ -26,16 +26,16 @@ python setup.py
 ```
 
 ## Running the app
-### Backend
-The backend can be started using the following command. It will open the backend to port `8000`.
-```
-cd [path to repo]/frontend
-python main.py
-```
-
 ### Frontend
 The frontend can be started using the following command. You will need to open a 2nd command line window to do this
 ```
-cd [path to repo]/backend
+cd [path to repo]/frontend
 npm run dev
+```
+
+### Backend
+The backend can be started using the following command. It will open the backend to port `8000`.
+```
+cd [path to repo]/backend
+python main.py
 ```
