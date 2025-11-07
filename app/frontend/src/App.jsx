@@ -16,6 +16,9 @@ import {
   Home as HomeIcon,
   Info as InfoIcon,
   Add as AddIcon,
+  LightMode as LightModeIcon,
+  DarkMode as DarkModeIcon,
+  Equalizer as EqualizerIcon
 } from '@mui/icons-material';
 
 import PredictPage from './Predict.jsx';
@@ -28,6 +31,12 @@ const theme = createTheme({
   palette: {
     primary: { main: '#1976d2' },
     secondary: { main: '#dc004e' },
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
   },
 });
 
@@ -101,7 +110,6 @@ function HomePage() {
       {/* ---------- Call to Action ---------- */}
       <Button
         variant="contained"
-        color="primary"
         size="large"
         component={Link}
         to="/predict"
@@ -216,14 +224,22 @@ function Visualisations() {
         {
           title: 'Dataset Distribution',
           desc: 'Number of spam vs. non-spam emails in the dataset.',
+          image: 'spam_distribution.png'
         },
         {
-          title: 'Model Accuracy',
-          desc: 'Comparison of training and validation accuracy across epochs.',
+          title: 'Dataset Spam Words Distribution',
+          desc: 'Visualisation based on the amount of words appeared in the dataset.',
+          image: 'spam_wordcloud.png'
         },
         {
-          title: 'Confusion Matrix',
-          desc: 'Visual representation of predicted vs. actual classifications.',
+          title: 'Naive Bayes Confusion Matrix',
+          desc: 'Visual representation of predicted vs. actual classifications of the NB Model',
+          image: 'nb_model.png'
+        },
+        {
+          title: 'Linear Regression Confusion Matrix',
+          desc: 'Visual representation of predicted vs. actual classifications of the LR Model',
+          image: 'lr_model.png'
         },
       ].map((section, index) => (
         <Paper
@@ -232,7 +248,6 @@ function Visualisations() {
             p: 4,
             mb: 5,
             borderRadius: 3,
-            width: '100%',
             maxWidth: 1000,
           }}
         >
@@ -243,11 +258,11 @@ function Visualisations() {
             {section.desc}
           </Typography>
           <Box
-            sx={{
-              height: 350,
-              backgroundColor: 'rgba(0,0,0,0.05)',
-              borderRadius: 2,
-            }}
+            component="img"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            src={section.image}
           />
         </Paper>
       ))}
@@ -302,17 +317,8 @@ function App() {
           <ListItemText primary="Predict" />
         </ListItem>
         <ListItem button component={Link} to="/visualisations">
-          <ListItemIcon><InfoIcon /></ListItemIcon>
+          <ListItemIcon><EqualizerIcon /></ListItemIcon>
           <ListItemText primary="Visualisations" />
-        </ListItem>
-      </List>
-
-      <Divider />
-
-      <List>
-        <ListItem>
-          <ListItemText primary="Dark Mode" />
-          <Switch checked={darkMode} onChange={handleDarkModeToggle} />
         </ListItem>
       </List>
     </Box>
@@ -323,7 +329,7 @@ function App() {
   // ===========================================
   return (
     <Router>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={darkMode ? darkTheme : theme}>
         <Box
           sx={{
             display: 'flex',
@@ -380,8 +386,11 @@ function App() {
           </Box>
 
           {/* ➕ FLOATING ACTION BUTTON */}
-          <Fab color="primary" aria-label="add" sx={{ position: 'fixed', bottom: 16, right: 16 }}>
-            <AddIcon />
+          <Fab 
+          aria-label="add" 
+          sx={{ position: 'fixed', bottom: 16, right: 16 }}
+          onClick={handleDarkModeToggle}>
+            {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
           </Fab>
 
           {/* ✅ SNACKBAR */}
