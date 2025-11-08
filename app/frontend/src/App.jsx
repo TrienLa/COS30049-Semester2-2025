@@ -75,7 +75,7 @@ function HomePage() {
           display: 'flex',
           justifyContent: 'space-evenly',
           alignItems: 'stretch',
-          flexWrap: 'nowrap',
+          flexWrap: 'wrap',
           width: '100%',
           maxWidth: 1200,
           mb: 6,
