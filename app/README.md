@@ -12,25 +12,24 @@ npm install
 ```
 
 ### Backend
-For the backend, you can install the packages using either `requirements.txt` or `setup.py`.
+For the backend, you can install the packages using `pip` and `requirements.txt`.
 
 ```
 cd [path to repo]/backend
-python install -r requirements.txt
-```
-Or
-
-```
-cd [path to repo]/backend
-python setup.py
+pip install -r requirements.txt
 ```
 
 ## Running the app
 ### Frontend
-The frontend can be started using the following command. You will need to open a 2nd command line window to do this
+The frontend can be started using the following command. You will need to open another command line window to do this.
 ```
 cd [path to repo]/frontend
 npm run dev
+```
+
+The previous command will only host the frontend on your local machine. To create a distributable build, use this instead. It will create a compiled build of the frontend ready to be hosted on a dedicated server.
+```
+npm run build
 ```
 
 ### Backend
