@@ -152,7 +152,13 @@ function About() {
         variant="body1"
         sx={{ mb: 5, textAlign: 'left', maxWidth: 900 }}
       >
-        [This is where we can talk deeper about how everything works in a more technical sense.]
+        The system focuses on malware classification, using an AI model trained to
+  identify patterns and features associated with malicious software. Through the
+  website, users can input data, view classification results, and explore
+  interactive visualizations that display model confidence and detection
+  insights. The application highlights how artificial intelligence can be
+  deployed in cybersecurity contexts to improve awareness and digital threat
+  detection.
       </Typography>
 
       {/* ---------- Team Member Cards ---------- */}
@@ -191,6 +197,7 @@ function About() {
           </Paper>
         ))}
       </Box>
+      {/* End Team Member cards, remove this section if we want to get rid of them */}
     </Container>
   );
 }
