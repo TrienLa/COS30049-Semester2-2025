@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from model import NaiveBayes, LinearRegression
+from model import SpamClassifier
 from utils import Logger
 import time
 
@@ -52,8 +52,9 @@ async def http_except_handler(request: Request, exc: HTTPException):
     )
 
 # Initilise Models
-nb = NaiveBayes()
-lg = LinearRegression()
+# nb = NaiveBayes()
+# lg = LinearRegression()
+classifier = SpamClassifier()
 
 # Root call
 @app.get("/")
@@ -62,24 +63,21 @@ async def root():
 
 # POST endpoint at "/predict"
 @app.post("/predict")
-async def predict_price(input: UserInput):
+async def predict(file: UploadFile = File(...)):
     try:
         # Call the model's predict method using the input data
-        match (input.model):
-            case 'NaiveBayes':
-                result = nb.predict([input.text_input])
-                pass
-            case 'LinearRegression':
-                result = lg.predict([input.text_input])
-                pass
+        if not file.filename.endswith('.csv'):
+            return {"error": "File must be a CSV"}
         
-        # Log the prediction details (price, square footage, and bedrooms)
-        logger.info(f"Prediction came out as: {result} for \"{input.text_input}\" text, using {input.model}")
+        result = classifier.spam_classify(file.file)
+        
+        # Log the prediction details
+        #logger.info(f"Prediction came out as: {result} for \"{input.text_input}\" text, using {input.model}")
         
         # Return the predicted email type in JSON format
 
         return JSONResponse(
-            content= "Spam" if result[0] else "Ham"
+            content=result
         )
     except Exception as e:
         # Log the error if an exception occurs during prediction

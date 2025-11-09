@@ -140,7 +140,7 @@ function About() {
         variant="body1"
         sx={{ mb: 5, textAlign: 'center', maxWidth: 900 }}
       >
-        This project is part of COS30049 - Artificial Intelligence, showcasing how 
+        This project is part of COS30049 - Computing Technology Innovation Project, showcasing how 
         machine learning models can be integrated into modern web apps using 
         FastAPI (Python) and React (JavaScript).
       </Typography>
@@ -175,8 +175,8 @@ function About() {
       >
         {[
           { name: 'Santiago Merchant', email: '105342228@student.swin.edu.au', about: "Bachelor of Arts (Games and interactivity & Computer Science majoring in artificial intelligence. I’m a flexible programmer with a number of programming languages." },
-          { name: 'Thien La', email: '103517891@student.swin.edu.au', about: "bachelor's degree in computer science, Major in Software Development. During my time at Swinburne University of Technology, I had picked up a few skills involving full stacks development and work revolves around AI and training of AI model. While AI is still quite a new thing in general for me, this will be a good opportunity to further my study in such an area." },
-          { name: 'Trien La', email: '104350343@student.swin.edu.au', about: "bachelor's degree in computer science, currently majoring in Software Development, with a minor focus on Game Development. I’m flexible in learning and picked up plenty of programming languages during the university courses, although I’m not confident or fluent in most of them but I’m willing to experiment and learn more. Through this project, I’m expected to learn a lot more about AI and web development than my current knowledge."},
+          { name: 'Thien La', email: '103517891@student.swin.edu.au', about: "Bachelor's degree in computer science, major in Software Development. During my time at Swinburne University of Technology, I had picked up a few skills involving full stacks development and work revolves around AI and training of AI model. While AI is still quite a new thing in general for me, this will be a good opportunity to further my study in such an area." },
+          { name: 'Trien La', email: '104350343@student.swin.edu.au', about: "Bachelor's degree in computer science, currently majoring in Software Development, with a minor focus on Game Development. I’m flexible in learning and picked up plenty of programming languages during the university courses, although I’m not confident or fluent in most of them but I’m willing to experiment and learn more. Through this project, I’m expected to learn a lot more about AI and web development than my current knowledge."},
         ].map((member, index) => (
           <Paper
             key={index}

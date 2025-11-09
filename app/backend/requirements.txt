@@ -4,3 +4,4 @@ scikit-learn
 fastapi
 pydantic
 uvicorn
+python-multipart
