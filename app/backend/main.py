@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException, Request, File, UploadFile
+from fastapi import FastAPI, HTTPException, Request, File, UploadFile, Form, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from model import SpamClassifier
@@ -30,9 +30,8 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 # User request validation
-class UserInput(BaseModel):
-    file: UploadFile = File(...)
-    model: str = Field(default='NaiveBayes', description="Model selected to predict the email text")
+# class UserInput(BaseModel):
+#     model: str = Form(default='NaiveBayes', description="Model selected to predict the email text")
 
 # Log HTTP request
 @app.middleware("http")
@@ -63,24 +62,24 @@ async def root():
 
 # POST endpoint at "/predict"
 @app.post("/predict")
-async def predict(input: Request):
+async def predict(file: UploadFile = File(...), model: str = Form(default='NaiveBayes', description="Model selected to predict the email text")):
     try:
         # Call the model's predict method using the input data
-        #if not input.filename.endswith('.csv'):
-        #    return {"error": "File must be a CSV"}
+        if not file.filename.endswith('.csv'):
+           return {"error": "File must be a CSV"}
         
-        #result = classifier.spam_classify(input.file)
+        result = classifier.spam_classify(file.file, model)
+        
+        logger.info(model)
 
-        logger.info(input)
-        
         # Log the prediction details
-        #logger.info(f"Prediction came out as: {result} for \"{input.filename}\" text, using {input.model}")
+        logger.info(f"Prediction came out as: {result["spam_count"]} spam emails for \"{file.filename}\" text, using {model}")
         
         # Return the predicted email type in JSON format
 
-        #return JSONResponse(
-        #    content=result
-        #)
+        return JSONResponse(
+           content=result
+        )
     except Exception as e:
         # Log the error if an exception occurs during prediction
         logger.error(f"Error during prediction: {str(e)}")
