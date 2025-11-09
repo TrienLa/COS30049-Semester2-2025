@@ -19,7 +19,7 @@ import {
   TableRow,
   Chip
 } from '@mui/material';
-import { CloudUpload } from '@mui/icons-material';
+import { CloudUpload, DarkMode } from '@mui/icons-material';
 
 function Visualisation() {
   const [file, setFile] = useState(null);
@@ -102,12 +102,12 @@ function Visualisation() {
 
         {/* Results Table */}
         <TableContainer component={Paper} variant="outlined">
-          <Table sx={{ minWidth: 650 }} aria-label="classification results">
+          <Table aria-label="classification results">
             <TableHead>
               <TableRow sx={{ backgroundColor: 'primary.main' }}>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Message Title</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Message Body</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Classification</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>EMAIL TITLE</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>EMAIL BODY</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>RESULT</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -115,11 +115,10 @@ function Visualisation() {
                 <TableRow 
                   key={index}
                   sx={{ 
-                    '&:last-child td, &:last-child th': { border: 0 },
-                    backgroundColor: row.prediction === 'spam' ? '#ffebee' : 'transparent'
+                    '&:last-child td, &:last-child th': { border: 0 }
                   }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell sx={{ maxWidth: 150}} component="th" scope="row">
                     {row.title || `Message ${index + 1}`}
                   </TableCell>
                   <TableCell sx={{ maxWidth: 400, wordWrap: 'break-word' }}>
@@ -129,7 +128,7 @@ function Visualisation() {
                         : row.text
                     ) : 'No content'}
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ maxWidth: 50}}>
                     <Chip 
                       label={row.prediction === 'spam' ? 'SPAM' : 'VALID'} 
                       color={row.prediction === 'spam' ? 'error' : 'success'}

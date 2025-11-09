@@ -64,8 +64,6 @@ class SpamClassifier:
             
             # Make predictions
             predictions = model.predict(df)
-
-            print(predictions)
         
             # Format results
             results = []
