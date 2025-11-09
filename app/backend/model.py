@@ -1,5 +1,4 @@
 import pickle
-import pandas as pd
 from data_utils import data_clean_up, data_preprocessing, load_data
 
 class NaiveBayes:

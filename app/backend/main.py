@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException, Request, File, UploadFile, Form
+from fastapi import FastAPI, HTTPException, Request, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from model import SpamClassifier
@@ -31,7 +31,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # User request validation
 class UserInput(BaseModel):
-    text_input: str = Field(description="Input from the user")
+    file: UploadFile = File(...)
     model: str = Field(default='NaiveBayes', description="Model selected to predict the email text")
 
 # Log HTTP request
@@ -63,22 +63,24 @@ async def root():
 
 # POST endpoint at "/predict"
 @app.post("/predict")
-async def predict(file: UploadFile = File(...)):
+async def predict(input: Request):
     try:
         # Call the model's predict method using the input data
-        if not file.filename.endswith('.csv'):
-            return {"error": "File must be a CSV"}
+        #if not input.filename.endswith('.csv'):
+        #    return {"error": "File must be a CSV"}
         
-        result = classifier.spam_classify(file.file)
+        #result = classifier.spam_classify(input.file)
+
+        logger.info(input)
         
         # Log the prediction details
-        #logger.info(f"Prediction came out as: {result} for \"{input.text_input}\" text, using {input.model}")
+        #logger.info(f"Prediction came out as: {result} for \"{input.filename}\" text, using {input.model}")
         
         # Return the predicted email type in JSON format
 
-        return JSONResponse(
-            content=result
-        )
+        #return JSONResponse(
+        #    content=result
+        #)
     except Exception as e:
         # Log the error if an exception occurs during prediction
         logger.error(f"Error during prediction: {str(e)}")
