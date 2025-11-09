@@ -11,7 +11,7 @@ git clone https://github.com/TrienLa/COS30049-Semester2-2025
 ## Environment and dependencies
 Once you download / clone the repository, you can start setting up the environment to run the project. Run the following command after you CD to the project directory to install any missing prerequisite libraries. 
 ```
-python install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Dataset Cleanup & Preparation
