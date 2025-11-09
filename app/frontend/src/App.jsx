@@ -77,7 +77,7 @@ function HomePage() {
         }}
       >
         {[
-          { step: '1️⃣', text: 'Paste an email message into the classifier.' },
+          { step: '1️⃣', text: 'Upload your email messages into the classifier.' },
           { step: '2️⃣', text: 'Our AI model analyses the content for spam indicators.' },
           { step: '3️⃣', text: 'Receive an instant prediction: Spam or Not Spam.' },
         ].map((item, index) => (
