@@ -1,5 +1,4 @@
-from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException, Request, File, UploadFile, Form, Depends
+from fastapi import FastAPI, HTTPException, Request, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from model import SpamClassifier
@@ -29,6 +28,15 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"message": f"An error occurred: {str(exc)}"}
     )
 
+# Handle HTTP exception
+@app.exception_handler(HTTPException)
+async def http_except_handler(exc: HTTPException):
+    return JSONResponse(
+        status_code = exc.status_code,
+        content={"detail": exc.detail, "error": "An error has occurred"}
+    )
+
+# from pydantic import BaseModel, Field
 # User request validation
 # class UserInput(BaseModel):
 #     model: str = Form(default='NaiveBayes', description="Model selected to predict the email text")
@@ -41,14 +49,6 @@ async def log_requests(request: Request, callnext):
     process_time = time.time() - start_time
     print(f"Request: {request.url} - Duration: {process_time} seconds")
     return response
-
-# Landdle exception
-@app.exception_handler(HTTPException)
-async def http_except_handler(request: Request, exc: HTTPException):
-    return JSONResponse(
-        status_code = exc.status_code,
-        content={"detail": exc.detail, "error": "An error has occurred"}
-    )
 
 # Initilise Models
 # nb = NaiveBayes()
@@ -68,12 +68,15 @@ async def predict(file: UploadFile = File(...), model: str = Form(default='Naive
         if not file.filename.endswith('.csv'):
            return {"error": "File must be a CSV"}
         
+        # Get result from the models
         result = classifier.spam_classify(file.file, model)
         
-        logger.info(model)
+        ## DEBUG
+        # logger.info(file)
+        # logger.info(model)
 
         # Log the prediction details
-        logger.info(f"Prediction came out as: {result["spam_count"]} spam emails for \"{file.filename}\" text, using {model}")
+        logger.info(f"Prediction came out as: {result['spam_count']} spam emails for \"{file.filename}\" text, using {model}")
         
         # Return the predicted email type in JSON format
 
