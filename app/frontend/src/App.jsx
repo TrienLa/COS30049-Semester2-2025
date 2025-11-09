@@ -376,21 +376,36 @@ function App() {
         >
           {/*APPBAR*/}
           <AppBar position="static" sx={{ width: '100%' }}>
-            <Toolbar>
-              <IconButton edge="start" color="inherit" onClick={toggleDrawer(true)}>
-                <MenuIcon />
-              </IconButton>
+            <Toolbar sx={{ justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  onClick={toggleDrawer(true)}
+                  sx={{ mr: 2, display: { xs: 'flex', md: 'none' } }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: { xs: '1rem', sm: '1.25rem' },
+                  }}
+                >
+                  Email Spam Classifier
+                </Typography>
+              </Box>
 
-              <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                Email Spam Classifier
-              </Typography>
-
-              <Button color="inherit" component={Link} to="/">Home</Button>
-              <Button color="inherit" component={Link} to="/about">About</Button>
-              <Button color="inherit" component={Link} to="/predict">Predict</Button>
-              <Button color="inherit" component={Link} to="/visualisations">Visualisations</Button>
+              {/* Desktop Nav */}
+              <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+                <Button color="inherit" component={Link} to="/">Home</Button>
+                <Button color="inherit" component={Link} to="/about">About</Button>
+                <Button color="inherit" component={Link} to="/predict">Predict</Button>
+                <Button color="inherit" component={Link} to="/visualisations">Visualisations</Button>
+              </Box>
             </Toolbar>
           </AppBar>
+
 
           {/*SIDE DRAWER*/}
           <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
