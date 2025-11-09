@@ -21,7 +21,7 @@ import PredictPage from './Predict.jsx';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // ===========================================
-//  THEME CONFIGURATION
+//  THEME CONFIG
 // ===========================================
 const theme = createTheme({
   palette: {
@@ -53,7 +53,7 @@ function HomePage() {
         alignItems: 'center',
       }}
     >
-      {/* ---------- Header / Hero Section ---------- */}
+      {/* ---------- Header ---------- */}
       <Typography variant="h2" component="h1" gutterBottom>
         Email Spam Classifier
       </Typography>
@@ -103,7 +103,7 @@ function HomePage() {
         ))}
       </Box>
 
-      {/* ---------- Call to Action ---------- */}
+      {/* ---------- Try Use Button ---------- */}
       <Button
         variant="contained"
         size="large"
@@ -174,9 +174,9 @@ function About() {
         }}
       >
         {[
-          { name: 'Santiago Merchant', email: '105342228@student.swin.edu.au' },
-          { name: 'Thien La', email: '103517891@student.swin.edu.au' },
-          { name: 'Trien La', email: '104350343@student.swin.edu.au' },
+          { name: 'Santiago Merchant', email: '105342228@student.swin.edu.au', about: "Bachelor of Arts (Games and interactivity & Computer Science majoring in artificial intelligence. I’m a flexible programmer with a number of programming languages." },
+          { name: 'Thien La', email: '103517891@student.swin.edu.au', about: "bachelor's degree in computer science, Major in Software Development. During my time at Swinburne University of Technology, I had picked up a few skills involving full stacks development and work revolves around AI and training of AI model. While AI is still quite a new thing in general for me, this will be a good opportunity to further my study in such an area." },
+          { name: 'Trien La', email: '104350343@student.swin.edu.au', about: "bachelor's degree in computer science, currently majoring in Software Development, with a minor focus on Game Development. I’m flexible in learning and picked up plenty of programming languages during the university courses, although I’m not confident or fluent in most of them but I’m willing to experiment and learn more. Through this project, I’m expected to learn a lot more about AI and web development than my current knowledge."},
         ].map((member, index) => (
           <Paper
             key={index}
@@ -187,12 +187,18 @@ function About() {
               maxWidth: 360,
               textAlign: 'center',
               borderRadius: 3,
+              display: `flex`,
+              flexDirection: 'column'
             }}
           >
             <Typography variant="h5" gutterBottom>
               {member.name}
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" gutterBottom>
+              {member.about}
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 'auto'}}>
+              Email:   
               <a
                 href={`mailto:${member.email}`}
                 style={{ color: '#1976d2', textDecoration: 'none' }}
@@ -210,7 +216,7 @@ function About() {
 }
 
 // ===========================================
-//  DATA VISUALISATIONS PAGE
+//  VISUALISATIONS PAGE
 // ===========================================
 function Visualisations() {
   return (
@@ -238,7 +244,7 @@ function Visualisations() {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: 4, // space between cards
+          gap: 4, 
           width: '100%',
           maxWidth: 1200,
         }}
@@ -353,7 +359,7 @@ function App() {
   );
 
   // ===========================================
-  //  PAGE STRUCTURE + ROUTING
+  //  PAGE STRUCTURE / ROUTING
   // ===========================================
   return (
     <Router>
@@ -370,7 +376,7 @@ function App() {
             overflowY: 'auto',
           }}
         >
-          {/* 🔝 APP BAR */}
+          {/*APPBAR*/}
           <AppBar position="static" sx={{ width: '100%' }}>
             <Toolbar>
               <IconButton edge="start" color="inherit" onClick={toggleDrawer(true)}>
@@ -388,12 +394,12 @@ function App() {
             </Toolbar>
           </AppBar>
 
-          {/*  SIDE DRAWER */}
+          {/*SIDE DRAWER*/}
           <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
             {drawerContent}
           </Drawer>
 
-          {/*  ROUTES */}
+          {/*ROUTES*/}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
@@ -401,7 +407,7 @@ function App() {
             <Route path="/visualisations" element={<Visualisations />} />
           </Routes>
 
-          {/*  FOOTER */}
+          {/*FOOTER*/}
           <Box component="footer" sx={{ bgcolor: darkMode ? 'grey.800' : 'background.paper', py: 6, mt: 'auto' }}>
             <Container maxWidth="lg">
               <Typography variant="body1">Email Spam Classifier — COS30049</Typography>
@@ -413,7 +419,7 @@ function App() {
             </Container>
           </Box>
 
-          {/*  FLOATING ACTION BUTTON */}
+          {/*FLOATING ACTION BUTTON*/}
           <Fab 
           aria-label="add" 
           sx={{ position: 'fixed', bottom: 16, right: 16 }}
@@ -421,7 +427,7 @@ function App() {
             {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
           </Fab>
 
-          {/*  SNACKBAR */}
+          {/*SNACKBAR*/}
           <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
             <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
               {darkMode ? 'Dark mode enabled!' : 'Light mode enabled!'}

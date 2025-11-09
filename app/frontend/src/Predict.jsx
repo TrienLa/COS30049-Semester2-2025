@@ -52,8 +52,8 @@ function Visualisation() {
             px: 4,
             mt: 8,
             mb: 6,
-            display: 'flex',              // ✅ enables flex layout
-            justifyContent: 'center',     // ✅ centers horizontally
+            display: 'flex',              
+            justifyContent: 'center',     
         }}
         >
             <Box sx={{ width: '100%', maxWidth: 1000 }}>
@@ -72,14 +72,14 @@ function Visualisation() {
           <TextField
             fullWidth
             multiline
-            minRows={10}              // ⬆ makes the box taller
+            minRows={10}              
             maxRows={25}
             label="Email Text"
             variant="outlined"
             value={emailData}
             onChange={(e) => setEmailData(e.target.value)}
             required
-            sx={{ mb: 3 }}            // ⬇ adds space before the button
+            sx={{ mb: 3 }}            
             />
 
             <Select
@@ -100,7 +100,7 @@ function Visualisation() {
             color="primary"
             size="large"
             disabled={loading}
-            fullWidth                 // ⬆ makes the button the same width as the text box
+            fullWidth                 
             >
             {loading ? <CircularProgress size={24} /> : 'Predict'}
             </Button>
