@@ -1,8 +1,4 @@
-// ===========================================
-// 🧠 COS30049 Frontend — Unified App.jsx
-// Combines navigation (AppBar + Drawer) with
-// integrated PredictPage (Model) and other pages
-// ===========================================
+
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
@@ -25,7 +21,7 @@ import PredictPage from './Predict.jsx';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // ===========================================
-// 🎨 THEME CONFIGURATION
+//  THEME CONFIGURATION
 // ===========================================
 const theme = createTheme({
   palette: {
@@ -41,7 +37,7 @@ const darkTheme = createTheme({
 });
 
 // ===========================================
-// 🏠 HOME PAGE
+//  HOME PAGE
 // ===========================================
 function HomePage() {
   return (
@@ -121,7 +117,7 @@ function HomePage() {
 }
 
 // ===========================================
-// 📄 ABOUT PAGE
+//  ABOUT PAGE
 // ===========================================
 function About() {
   return (
@@ -162,6 +158,9 @@ function About() {
       </Typography>
 
       {/* ---------- Team Member Cards ---------- */}
+      <Typography variant="h4" gutterBottom>
+        Team Members
+      </Typography>
       <Box
         sx={{
           display: 'flex',
@@ -175,9 +174,9 @@ function About() {
         }}
       >
         {[
-          { name: 'Santiago Merchant', about: '[About]' },
-          { name: 'Thien La', about: '[About]' },
-          { name: 'Trien La', about: '[About]' },
+          { name: 'Santiago Merchant', email: '105342228@student.swin.edu.au' },
+          { name: 'Thien La', email: '103517891@student.swin.edu.au' },
+          { name: 'Trien La', email: '104350343@student.swin.edu.au' },
         ].map((member, index) => (
           <Paper
             key={index}
@@ -193,17 +192,25 @@ function About() {
             <Typography variant="h5" gutterBottom>
               {member.name}
             </Typography>
-            <Typography variant="body2">{member.about}</Typography>
+            <Typography variant="body2">
+              <a
+                href={`mailto:${member.email}`}
+                style={{ color: '#1976d2', textDecoration: 'none' }}
+              >
+                {member.email}
+              </a>
+            </Typography>
           </Paper>
         ))}
       </Box>
+
       {/* End Team Member cards, remove this section if we want to get rid of them */}
     </Container>
   );
 }
 
 // ===========================================
-// 📊 DATA VISUALISATIONS PAGE
+//  DATA VISUALISATIONS PAGE
 // ===========================================
 function Visualisations() {
   return (
@@ -226,59 +233,73 @@ function Visualisations() {
         Explore how the spam classifier performs on test data, and view insights
         from the dataset used to train it.
       </Typography>
-
-      {[
-        {
-          title: 'Dataset Distribution',
-          desc: 'Number of spam vs. non-spam emails in the dataset.',
-          image: 'spam_distribution.png'
-        },
-        {
-          title: 'Dataset Spam Words Distribution',
-          desc: 'Visualisation based on the amount of words appeared in the dataset.',
-          image: 'spam_wordcloud.png'
-        },
-        {
-          title: 'Naive Bayes Confusion Matrix',
-          desc: 'Visual representation of predicted vs. actual classifications of the NB Model',
-          image: 'nb_model.png'
-        },
-        {
-          title: 'Linear Regression Confusion Matrix',
-          desc: 'Visual representation of predicted vs. actual classifications of the LR Model',
-          image: 'lr_model.png'
-        },
-      ].map((section, index) => (
-        <Paper
-          key={index}
-          sx={{
-            p: 4,
-            mb: 5,
-            borderRadius: 3,
-            maxWidth: 1000,
-          }}
-        >
-          <Typography variant="h5" gutterBottom>
-            {section.title}
-          </Typography>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            {section.desc}
-          </Typography>
-          <Box
-            component="img"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            src={section.image}
-          />
-        </Paper>
-      ))}
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: 4, // space between cards
+          width: '100%',
+          maxWidth: 1200,
+        }}
+      >
+        {[
+          {
+            title: 'Dataset Distribution',
+            desc: 'Number of spam vs. non-spam emails in the dataset.',
+            image: 'spam_distribution.png'
+          },
+          {
+            title: 'Dataset Spam Words Distribution',
+            desc: 'Visualisation based on the amount of words appeared in the dataset.',
+            image: 'spam_wordcloud.png'
+          },
+          {
+            title: 'Naive Bayes Confusion Matrix',
+            desc: 'Visual representation of predicted vs. actual classifications of the NB Model',
+            image: 'nb_model.png'
+          },
+          {
+            title: 'Linear Regression Confusion Matrix',
+            desc: 'Visual representation of predicted vs. actual classifications of the LR Model',
+            image: 'lr_model.png'
+          },
+        ].map((section, index) => (
+          <Paper
+            key={index}
+            sx={{
+              p: 4,
+              mb: 5,
+              borderRadius: 3,
+              flex: '1 1 450px',
+              maxWidth: 550,
+              border: `1px, solid, white`,
+              boxShadow: 6,
+            }}
+          >
+            <Typography variant="h5" gutterBottom>
+              {section.title}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 2 }}>
+              {section.desc}
+            </Typography>
+            <Box
+              component="img"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              src={section.image}
+              sx={{border: '2px solid #797979ff', borderRadius: 2, width: '100%'}}
+            />
+          </Paper>
+        ))}
+      </Box>
     </Container>
   );
 }
 
 // ===========================================
-// 🧩 MAIN APP COMPONENT
+//  MAIN APP COMPONENT
 // ===========================================
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -301,7 +322,7 @@ function App() {
   };
 
   // ===========================================
-  // 🧭 SIDE DRAWER MENU
+  //  SIDE DRAWER MENU
   // ===========================================
   const drawerContent = (
     <Box
@@ -332,7 +353,7 @@ function App() {
   );
 
   // ===========================================
-  // 🌐 PAGE STRUCTURE + ROUTING
+  //  PAGE STRUCTURE + ROUTING
   // ===========================================
   return (
     <Router>
@@ -367,12 +388,12 @@ function App() {
             </Toolbar>
           </AppBar>
 
-          {/* 📂 SIDE DRAWER */}
+          {/*  SIDE DRAWER */}
           <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
             {drawerContent}
           </Drawer>
 
-          {/* 🧭 ROUTES */}
+          {/*  ROUTES */}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
@@ -380,7 +401,7 @@ function App() {
             <Route path="/visualisations" element={<Visualisations />} />
           </Routes>
 
-          {/* 🦶 FOOTER */}
+          {/*  FOOTER */}
           <Box component="footer" sx={{ bgcolor: darkMode ? 'grey.800' : 'background.paper', py: 6, mt: 'auto' }}>
             <Container maxWidth="lg">
               <Typography variant="body1">Email Spam Classifier — COS30049</Typography>
@@ -392,7 +413,7 @@ function App() {
             </Container>
           </Box>
 
-          {/* ➕ FLOATING ACTION BUTTON */}
+          {/*  FLOATING ACTION BUTTON */}
           <Fab 
           aria-label="add" 
           sx={{ position: 'fixed', bottom: 16, right: 16 }}
@@ -400,7 +421,7 @@ function App() {
             {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
           </Fab>
 
-          {/* ✅ SNACKBAR */}
+          {/*  SNACKBAR */}
           <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
             <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
               {darkMode ? 'Dark mode enabled!' : 'Light mode enabled!'}
